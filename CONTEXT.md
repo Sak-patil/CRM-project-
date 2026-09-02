@@ -96,15 +96,22 @@ Before starting any phase, the agent must read:
 
 ---
 
-## Documentation Expectations
+## Important Project Files
 
-- **`CONTEXT.md`** — Stable project context (this file). Rarely changes.
-- **`PHASES.md`** — Master development roadmap. Updated when phases change status.
-- **`PROJECT_STATUS.md`** — Current state snapshot. Updated after every meaningful task.
-- **`docs/phases/PHASE_XX_*.md`** — Created when a phase becomes active. Records what was actually done.
-- **Technical docs** — Created as needed during implementation phases.
+| File | Purpose |
+|------|---------|
+| `CONTEXT.md` | Stable project context (this file). Rarely changes. |
+| `PHASES.md` | Master development roadmap. Updated when phases change status. |
+| `PROJECT_STATUS.md` | Current state snapshot. Updated after every meaningful task. |
+| `docs/phases/BASIC_INSTRUCTIONS.md` | Rules and workflow for AI agents. |
+| `docs/phases/PHASE_01_REQUIREMENTS.md` | ✅ Complete requirements spec — data dictionary, permission matrix, acceptance criteria. |
+| `docs/phases/PHASE_XX_*.md` | Created when a phase becomes active. Records what was actually done. |
 
-Documentation must describe the **actual current implementation**, not aspirational plans.
+## Documentation Guidelines
+
+- Documentation must describe the **actual current implementation**, not aspirational plans.
+- **Keep documents concise** — optimize for context window size. Avoid unnecessary repetition.
+- Update this file's "Important Project Files" table when new key documents are created.
 
 ---
 
