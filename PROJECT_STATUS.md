@@ -6,11 +6,11 @@ CRM System — Role-based Customer Relationship Management Application
 
 ## Current Phase
 
-Phase 3 — Architecture & System Design → **COMPLETED**
+Phase 4 — Project Initialization & Dev Environment → **COMPLETED**
 
 ## Current Task
 
-Phase 3 complete. Awaiting instruction to begin Phase 4.
+Phase 4 complete. Both frontend and backend are initialized. Awaiting instruction to begin Phase 5.
 
 ## Completed
 
@@ -46,9 +46,19 @@ Phase 3 complete. Awaiting instruction to begin Phase 4.
 - ✅ Designed MongoDB schema with relationships and indexing
 - ✅ Designed REST API structure and endpoints
 - ✅ Defined JWT-based authentication and role authorization strategy
-- ✅ Defined frontend (React/Vite) and backend (Node/Express) project structure
+- ✅ Defined frontend (React/Vite) and backend (Node.js 20 LTS + Express.js) project structure
 - ✅ Outlined error handling and environment configuration strategy
-- ✅ `docs/phases/PHASE_03_ARCHITECTURE.md` created
+- ✅ **Architecture revised:** Backend stack changed from FastAPI (Python) to Node.js 20 LTS + Express.js (before any code was written)
+- ✅ `docs/phases/PHASE_03_ARCHITECTURE.md` updated to reflect Node.js/Express architecture
+
+### Phase 4 — Project Initialization & Dev Environment
+- ✅ Backend Express project initialized (`npm init`) and dependencies installed
+- ✅ Frontend React project scaffolded via Vite and dependencies installed
+- ✅ Folder structures created according to Phase 3 architecture
+- ✅ Database configuration and error handler middleware implemented
+- ✅ Health check route (`GET /api/v1/health`) created and tested
+- ✅ Frontend Axios instance boilerplate created
+- ✅ `docs/phases/PHASE_04_PROJECT_SETUP.md` created
 
 ## Key Decisions Made
 
@@ -64,6 +74,7 @@ Phase 3 complete. Awaiting instruction to begin Phase 4.
 | Overdue detection | Query-time auto-detect, no background job |
 | Deployment | Cloud (Render/Railway/Vercel) |
 | Admin seed | Seed script with env vars |
+| **Backend framework** | **Changed from FastAPI (Python) → Node.js 20 LTS + Express.js** (pre-Phase 4, no code existed) |
 
 ## In Progress
 
@@ -71,7 +82,6 @@ None — awaiting instruction to proceed.
 
 ## Remaining
 
-- Phase 4: Project Initialization & Dev Environment
 - Phase 5: Authentication & Authorization
 - Phase 6: Tracer Bullet — End-to-End Validation
 - Phase 7: User Management
@@ -100,7 +110,7 @@ None.
 
 ## Next Planned Phase
 
-Phase 4 — Project Initialization & Dev Environment (per `PHASES.md`)
+Phase 5 — Authentication & Authorization (per `PHASES.md`)
 
 ## Relevant Documentation
 
@@ -109,8 +119,9 @@ Phase 4 — Project Initialization & Dev Environment (per `PHASES.md`)
 - [`PHASE_01_REQUIREMENTS.md`](file:///c:/Users/pshub/Desktop/CRM%20full%20stack/docs/phases/PHASE_01_REQUIREMENTS.md) — Complete requirements specification
 - [`PHASE_02_UX_DESIGN.md`](file:///c:/Users/pshub/Desktop/CRM%20full%20stack/docs/phases/PHASE_02_UX_DESIGN.md) — UX design and screen planning
 - [`PHASE_03_ARCHITECTURE.md`](file:///c:/Users/pshub/Desktop/CRM%20full%20stack/docs/phases/PHASE_03_ARCHITECTURE.md) — Technical architecture blueprint
+- [`PHASE_04_PROJECT_SETUP.md`](file:///c:/Users/pshub/Desktop/CRM%20full%20stack/docs/phases/PHASE_04_PROJECT_SETUP.md) — Project initialization details
 - `PROJECT_STATUS.md` — This file
 
 ## Last Updated
 
-2026-09-07
+2026-09-10

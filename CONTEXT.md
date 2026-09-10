@@ -44,13 +44,30 @@ User (Sales Executive)
 
 ## Technology Stack
 
-| Layer     | Technology        |
-| --------- | ----------------- |
-| Frontend  | React             |
-| Backend   | Node.js + Express |
-| Database  | MongoDB           |
+| Layer     | Technology                     |
+| --------- | ------------------------------ |
+| Frontend  | React                          |
+| Backend   | Node.js 20 LTS + Express.js    |
+| Database  | MongoDB                        |
 
 Do not change the stack without documenting the rationale under an architecture decision record.
+
+### Architecture Decision Record — Backend Framework Change
+
+**Decision:** Replace FastAPI (Python) with Node.js 20 LTS + Express.js.
+
+**Date:** 2026-09-10 (before Phase 4 — no code existed at time of change).
+
+**Rationale:** The project owner elected to use Node.js + Express.js for the backend before any implementation began. The JavaScript ecosystem aligns the backend with the React frontend, simplifies the developer environment (single language, single runtime), and provides a large, well-maintained package ecosystem.
+
+**Supporting library choices confirmed:**
+- MongoDB ODM: **Mongoose**
+- Auth: **jsonwebtoken + bcryptjs**
+- Input validation: **express-validator**
+- HTTP logging: **morgan**
+- Env management: **dotenv**
+- Dev server: **nodemon**
+- Language: **Plain JavaScript (CommonJS)**
 
 ---
 

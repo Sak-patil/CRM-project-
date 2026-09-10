@@ -15,11 +15,17 @@ Define the complete technical architecture for the CRM system. This includes dat
 - **HTTP Client:** Axios (configured with interceptors for JWT injection and error handling).
 
 ### Backend
-- **Runtime:** Node.js.
+- **Runtime:** Node.js 20 LTS.
 - **Framework:** Express.js.
-- **Database:** MongoDB (using Mongoose ODM for schema validation and relationship mapping).
-- **Authentication:** JSON Web Tokens (JWT) & bcrypt for password hashing.
-- **Validation:** Joi or Zod for API request validation.
+- **Database:** MongoDB (using Mongoose as the ODM for schema definition, validation, and query building).
+- **Authentication:** JSON Web Tokens (JWT) via `jsonwebtoken` library. Password hashing via `bcryptjs`.
+- **Validation:** `express-validator` (request body/param validation middleware).
+- **HTTP Logging:** `morgan` (HTTP request logger middleware).
+- **Env Management:** `dotenv` (loads `.env` file into `process.env` at startup).
+- **Dev Server:** `nodemon` (auto-restarts the server on file changes during development).
+- **Security Middleware:** `helmet` (sets secure HTTP headers), `cors` (Cross-Origin Resource Sharing configuration).
+- **Language:** Plain JavaScript, CommonJS module system (`require`/`module.exports`).
+- **API Testing:** Postman will be used for testing all API endpoints.
 
 ---
 
@@ -130,14 +136,19 @@ All endpoints will be prefixed with `/api/v1`.
 ### Backend (`/backend`)
 ```
 /backend
-├── /config         # Database connection, env validation
-├── /controllers    # Route logic and response formatting
-├── /middlewares    # Auth, role checking, error handling
-├── /models         # Mongoose schemas
-├── /routes         # API endpoint definitions mapping to controllers
-├── /utils          # Helper functions (e.g., error classes)
-├── server.js       # Express app initialization
-└── .env            # Environment variables
+├── /src
+│   ├── /config          # DB connection (Mongoose), env loading (dotenv)
+│   ├── /controllers     # Route handler functions (req, res, next logic)
+│   ├── /middleware      # auth, role-based access, error handler, validation
+│   ├── /models          # Mongoose schemas (User, Customer, FollowUp, Interaction)
+│   ├── /routes          # Express Router definitions (maps URLs to controllers)
+│   ├── /services        # Business logic layer (keeps controllers thin)
+│   └── /utils           # Helpers (token generation, async error wrapper, etc.)
+├── /scripts             # Seed scripts (admin user seeder)
+├── server.js            # Express app entry point (app init, middleware, routes)
+├── package.json         # Node.js dependencies and npm scripts
+├── .env                 # Environment variables (never committed)
+└── .env.example         # Template showing all required env variable keys
 ```
 
 ### Frontend (`/frontend`)
@@ -182,9 +193,11 @@ All endpoints will be prefixed with `/api/v1`.
 ```
 
 ### Backend Error Strategy
-- Use a central `errorHandler` middleware.
-- Create a custom `AppError` class extending `Error` to attach HTTP status codes.
-- Catch all async errors using an `asyncHandler` wrapper to prevent server crashes and send them to the central error middleware.
+- Use a centralized Express error-handling middleware with the signature `(err, req, res, next)` registered as the last middleware in `server.js`.
+- Create custom error classes (e.g., `AppError`) extending `Error` with a `statusCode` property.
+- Wrap all async route handlers with a `catchAsync(fn)` utility to avoid repetitive `try/catch` blocks and funnel errors to the central handler.
+- Mongoose validation errors and CastErrors (invalid ObjectIds) will be caught and transformed into structured 400/404 responses.
+- Unhandled promise rejections and uncaught exceptions will be caught globally and will trigger a graceful server shutdown.
 
 ### Environment Variables
 - `PORT`: API server port.

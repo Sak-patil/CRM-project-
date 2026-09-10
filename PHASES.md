@@ -168,39 +168,41 @@ PLAN → IMPLEMENT → TEST → REVIEW → UPDATE DOCS → UPDATE PROGRESS → C
 
 ## Phase 4 — Project Initialization & Dev Environment
 
-**Objective:** Set up the actual project — initialize the React frontend, Node.js/Express backend, and MongoDB connection. Establish the development tooling, folder structure, and configuration from the architecture defined in Phase 3.
+**Objective:** Set up the actual project — initialize the React frontend, Node.js + Express.js backend, and MongoDB connection. Establish the development tooling, folder structure, and configuration from the architecture defined in Phase 3.
 
 **Why this phase exists:** A clean, well-structured project foundation prevents structural debt. This phase turns the architectural plan into a real, runnable (but mostly empty) project.
 
 **Dependencies:** Phase 3 completed.
 
 **Major Tasks:**
-- Initialize the React frontend project
-- Initialize the Node.js/Express backend project
-- Set up MongoDB connection configuration
-- Create the folder structures defined in Phase 3
-- Set up environment variable management
+- Initialize the React frontend project (Vite)
+- Initialize the Node.js + Express.js backend project (`npm init`)
+- Install all backend dependencies: `express`, `mongoose`, `jsonwebtoken`, `bcryptjs`, `express-validator`, `morgan`, `helmet`, `cors`, `dotenv`
+- Install dev dependencies: `nodemon`
+- Set up MongoDB connection configuration (Mongoose)
+- Create the folder structures defined in Phase 3 (`/src/config`, `/src/controllers`, `/src/middleware`, `/src/models`, `/src/routes`, `/src/services`, `/src/utils`, `/scripts`)
+- Set up environment variable management (`.env` + `.env.example`)
 - Set up linting and formatting
-- Set up basic development scripts (`dev`, `build`, `test`)
+- Set up npm scripts: `start`, `dev` (nodemon), `seed`
 - Verify both projects start and connect successfully
 
 **Expected Deliverables:**
 - `docs/phases/PHASE_04_PROJECT_SETUP.md`
 - Working React frontend (dev server starts)
-- Working Express backend (dev server starts)
+- Working Express.js backend (nodemon dev server starts, `GET /api/v1/health` returns 200)
 - MongoDB connection verified
 - Configured development tooling
 
 **Completion Criteria:**
-- [ ] Frontend dev server starts without errors
-- [ ] Backend dev server starts without errors
-- [ ] MongoDB connection established
-- [ ] Folder structure matches architecture plan
-- [ ] Environment configuration working
-- [ ] Linting/formatting configured
-- [ ] Documentation updated
+- [✅] Frontend dev server starts without errors
+- [✅] Backend dev server starts without errors (nodemon)
+- [✅] MongoDB connection established via Mongoose
+- [✅] Folder structure matches architecture plan
+- [✅] Environment configuration working (`.env` loaded via dotenv)
+- [✅] Linting/formatting configured
+- [✅] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** COMPLETED
 
 ---
 
@@ -262,7 +264,7 @@ PLAN → IMPLEMENT → TEST → REVIEW → UPDATE DOCS → UPDATE PROGRESS → C
 A logged-in Sales Executive can see a list of customers assigned to them. An Admin can see all customers. The list is fetched from the database via an authenticated, authorized API call and rendered in the React frontend.
 
 **Why this feature was selected:**
-- It exercises **every architectural layer**: React component → API call with JWT → Express route → auth middleware → role-based authorization → MongoDB query → JSON response → frontend rendering.
+- It exercises **every architectural layer**: React component → API call with JWT → Express.js route → auth middleware → role-based authorization → MongoDB/Mongoose query → JSON response → frontend rendering.
 - It involves the **core CRM entity** (Customer) and the **core relationship** (Sales Executive → Customer).
 - It tests **role-based data scoping** (Sales Executive sees only their customers; Admin sees all).
 - It is **small enough** to implement quickly but **meaningful enough** to validate real architecture decisions.
@@ -552,7 +554,7 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - Review frontend error handling and user-facing error messages
 - Ensure no sensitive data leaks in API responses or logs
 - Review CORS configuration
-- Add security headers (helmet or equivalent)
+- Add security headers (`helmet` middleware — already in the Express dependency stack)
 
 **Expected Deliverables:**
 - `docs/phases/PHASE_13_SECURITY.md`
@@ -585,7 +587,7 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 
 **Major Tasks:**
 - Review and extend unit test coverage for backend services
-- Review and extend API integration tests
+- Review and extend API integration tests (using Postman)
 - Test all user journeys end-to-end (Admin and Sales Executive)
 - Test edge cases and error scenarios
 - Test authorization boundaries (role escalation, cross-user data access)
