@@ -1,8 +1,25 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
 import Login from './pages/Login';
+import CustomersList from './pages/CustomersList';
+import UsersList from './pages/admin/UsersList';
+import UserForm from './pages/admin/UserForm';
+import Profile from './pages/se/Profile';
 import './App.css';
+
+// Layout component with Navbar
+const AppLayout = () => {
+  return (
+    <>
+      <Navbar />
+      <div className="main-content">
+        <Outlet />
+      </div>
+    </>
+  );
+};
 
 // Placeholder Dashboard component
 const Dashboard = () => {
@@ -21,14 +38,31 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           
+          {/* Protected Routes wrapped in AppLayout */}
           <Route 
-            path="/" 
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <AppLayout />
               </ProtectedRoute>
-            } 
-          />
+            }
+          >
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/customers" element={<CustomersList />} />
+            <Route path="/se/profile" element={<Profile />} />
+          </Route>
+
+          {/* Admin Protected Routes wrapped in AppLayout */}
+          <Route 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/admin/users" element={<UsersList />} />
+            <Route path="/admin/users/new" element={<UserForm />} />
+            <Route path="/admin/users/:id/edit" element={<UserForm />} />
+          </Route>
           
           {/* Catch-all route */}
           <Route path="*" element={<Navigate to="/" replace />} />

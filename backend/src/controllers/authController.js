@@ -54,3 +54,29 @@ exports.getMe = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+/**
+ * @desc    Update current logged in user
+ * @route   PUT /api/v1/auth/me
+ * @access  Private
+ */
+exports.updateMe = catchAsync(async (req, res, next) => {
+  // Only allow updating name and phone
+  const { name, phone } = req.body;
+  
+  const updateData = {};
+  if (name !== undefined) updateData.name = name;
+  if (phone !== undefined) updateData.phone = phone;
+
+  const user = await User.findByIdAndUpdate(req.user.id, updateData, {
+    new: true,
+    runValidators: true
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {
+      user
+    }
+  });
+});

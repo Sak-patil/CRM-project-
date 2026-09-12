@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser } = require('../controllers/userController');
+const { createUser, getUsers, getUser, updateUser, deleteUser } = require('../controllers/userController');
 const { requireAuth, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
@@ -8,6 +8,13 @@ const router = express.Router();
 router.use(requireAuth);
 router.use(requireRole('admin'));
 
-router.post('/', createUser);
+router.route('/')
+  .get(getUsers)
+  .post(createUser);
+
+router.route('/:id')
+  .get(getUser)
+  .put(updateUser)
+  .delete(deleteUser);
 
 module.exports = router;

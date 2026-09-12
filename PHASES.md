@@ -238,17 +238,17 @@ PLAN → IMPLEMENT → TEST → REVIEW → UPDATE DOCS → UPDATE PROGRESS → C
 - Auth tests
 
 **Completion Criteria:**
-- [ ] Users can log in with valid credentials
-- [ ] Invalid credentials are rejected
-- [ ] JWT is issued and verified correctly
-- [ ] Role-based middleware restricts access appropriately
-- [ ] Frontend handles auth state (login, logout, token storage)
-- [ ] Protected routes redirect unauthenticated users
-- [ ] Admin seed user exists
-- [ ] Auth tests pass
-- [ ] Documentation updated
+- [x] Users can log in with valid credentials
+- [x] Invalid credentials are rejected
+- [x] JWT is issued and verified correctly
+- [x] Role-based middleware restricts access appropriately
+- [x] Frontend handles auth state (login, logout, token storage)
+- [x] Protected routes redirect unauthenticated users
+- [x] Admin seed user exists
+- [x] Auth tests pass
+- [x] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** COMPLETED
 
 ---
 
@@ -305,16 +305,16 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - End-to-end verification results
 
 **Completion Criteria:**
-- [ ] Sales Executive can log in and see only their assigned customers
-- [ ] Admin can log in and see all customers
-- [ ] Unauthenticated requests are rejected
-- [ ] Unauthorized role access is rejected
-- [ ] Data flows correctly from database to frontend
-- [ ] Error cases handled (no customers, network error)
-- [ ] Architecture validated across all layers
-- [ ] Documentation updated
+- [x] Sales Executive can log in and see only their assigned customers
+- [x] Admin can log in and see all customers
+- [x] Unauthenticated requests are rejected
+- [x] Unauthorized role access is rejected
+- [x] Data flows correctly from database to frontend
+- [x] Error cases handled (no customers, network error)
+- [x] Architecture validated across all layers
+- [x] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** COMPLETED
 
 ---
 
@@ -341,16 +341,16 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - Edge case handling
 
 **Completion Criteria:**
-- [ ] Admin can create Sales Executive accounts
-- [ ] Admin can view all users
-- [ ] Admin can edit user information
-- [ ] Admin can deactivate users
-- [ ] Non-Admin users cannot access user management
-- [ ] Edge cases handled
-- [ ] Tests pass
-- [ ] Documentation updated
+- [x] Admin can create Sales Executive accounts
+- [x] Admin can view all users
+- [x] Admin can edit user information
+- [x] Admin can deactivate users (Hard delete with validation implemented)
+- [x] Non-Admin users cannot access user management
+- [x] Edge cases handled
+- [x] Tests pass
+- [x] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** COMPLETED
 
 ---
 
