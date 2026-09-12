@@ -6,11 +6,11 @@ CRM System — Role-based Customer Relationship Management Application
 
 ## Current Phase
 
-Phase 4 — Project Initialization & Dev Environment → **COMPLETED**
+Phase 5 — Authentication & Authorization → **COMPLETED**
 
 ## Current Task
 
-Phase 4 complete. Both frontend and backend are initialized. Awaiting instruction to begin Phase 5.
+Phase 5 complete. Both frontend and backend authentication flow are implemented. Awaiting instruction to begin Phase 6.
 
 ## Completed
 
@@ -60,6 +60,14 @@ Phase 4 complete. Both frontend and backend are initialized. Awaiting instructio
 - ✅ Frontend Axios instance boilerplate created
 - ✅ `docs/phases/PHASE_04_PROJECT_SETUP.md` created
 
+### Phase 5 — Authentication & Authorization
+- ✅ `User` model created with `bcrypt` password hashing
+- ✅ Authentication middleware (`requireAuth`, `requireRole`) implemented
+- ✅ Auth endpoints (`POST /login`, `GET /me`) and user creation endpoint (`POST /users`) added
+- ✅ Admin seed script created and tested
+- ✅ React `AuthContext`, `useAuth` hook, and Axios interceptor added
+- ✅ `Login` component and `ProtectedRoute` implemented in frontend
+
 ## Key Decisions Made
 
 | Decision | Resolution |
@@ -82,7 +90,6 @@ None — awaiting instruction to proceed.
 
 ## Remaining
 
-- Phase 5: Authentication & Authorization
 - Phase 6: Tracer Bullet — End-to-End Validation
 - Phase 7: User Management
 - Phase 8: Customer Management
@@ -102,7 +109,7 @@ None.
 
 ## Open Decisions
 
-None — all 10 original decisions resolved during Phase 1.
+None.
 
 ## Current Blockers
 
@@ -110,7 +117,7 @@ None.
 
 ## Next Planned Phase
 
-Phase 5 — Authentication & Authorization (per `PHASES.md`)
+Phase 6 — Tracer Bullet: End-to-End Validation (per `PHASES.md`)
 
 ## Relevant Documentation
 
