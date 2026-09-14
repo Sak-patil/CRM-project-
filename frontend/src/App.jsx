@@ -4,6 +4,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import CustomersList from './pages/CustomersList';
+import CustomerForm from './pages/CustomerForm';
+import CustomerDetail from './pages/CustomerDetail';
 import UsersList from './pages/admin/UsersList';
 import UserForm from './pages/admin/UserForm';
 import Profile from './pages/se/Profile';
@@ -48,6 +50,9 @@ function App() {
           >
             <Route path="/" element={<Dashboard />} />
             <Route path="/customers" element={<CustomersList />} />
+            <Route path="/customers/new" element={<CustomerForm />} />
+            <Route path="/customers/:id/edit" element={<CustomerForm />} />
+            <Route path="/customers/:id" element={<CustomerDetail />} />
             <Route path="/se/profile" element={<Profile />} />
           </Route>
 

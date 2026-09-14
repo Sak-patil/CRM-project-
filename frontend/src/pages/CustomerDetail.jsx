@@ -1,0 +1,141 @@
+import { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { getCustomer, deleteCustomer } from '../api/customers';
+import { useAuth } from '../context/AuthContext';
+
+const CustomerDetail = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  
+  const [customer, setCustomer] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchCustomer = async () => {
+      try {
+        setLoading(true);
+        const data = await getCustomer(id);
+        setCustomer(data.data.customer);
+      } catch (err) {
+        setError(err.response?.data?.error?.message || 'Failed to load customer details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomer();
+  }, [id]);
+
+  const handleDelete = async () => {
+    if (window.confirm(`Are you sure you want to delete ${customer.name}?\n\nWARNING: This will permanently delete this customer and all associated follow-ups and interactions.`)) {
+      try {
+        await deleteCustomer(id);
+        navigate('/customers');
+      } catch (err) {
+        alert(err.response?.data?.error?.message || 'Failed to delete customer');
+      }
+    }
+  };
+
+  if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Loading customer details...</div>;
+  if (error) return <div style={{ padding: '20px', color: '#ff4757', textAlign: 'center' }}>{error}</div>;
+  if (!customer) return <div style={{ padding: '20px', textAlign: 'center' }}>Customer not found.</div>;
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <div className="page-header flex-between">
+        <div>
+          <h2>Customer Details</h2>
+          <p style={{ color: 'var(--text)', fontSize: '14px' }}>
+            Detailed view and activity history for {customer.name}
+          </p>
+        </div>
+        <div className="flex-row">
+          <Link to="/customers" className="premium-btn premium-btn-secondary" style={{ padding: '6px 12px' }}>
+            Back to List
+          </Link>
+          <Link to={`/customers/${id}/edit`} className="premium-btn premium-btn-primary" style={{ padding: '6px 12px' }}>
+            Edit
+          </Link>
+          {user?.role === 'admin' && (
+            <button onClick={handleDelete} className="premium-btn premium-btn-danger" style={{ padding: '6px 12px' }}>
+              Delete
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
+        <div className="premium-card">
+          <h3 style={{ marginTop: 0, marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>
+            Contact Information
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <div>
+              <div style={{ fontSize: '12px', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Name</div>
+              <div style={{ fontSize: '16px', fontWeight: '500', color: 'var(--text-h)' }}>{customer.name}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '12px', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Email</div>
+              <div style={{ fontSize: '16px', color: 'var(--text-h)' }}>
+                <a href={`mailto:${customer.email}`} style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+                  {customer.email}
+                </a>
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: '12px', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Phone</div>
+              <div style={{ fontSize: '16px', color: 'var(--text-h)' }}>
+                <a href={`tel:${customer.phone}`} style={{ color: 'var(--text-h)', textDecoration: 'none' }}>
+                  {customer.phone}
+                </a>
+              </div>
+            </div>
+            {customer.address && (
+              <div>
+                <div style={{ fontSize: '12px', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Address</div>
+                <div style={{ fontSize: '16px', color: 'var(--text-h)' }}>{customer.address}</div>
+              </div>
+            )}
+            <div>
+              <div style={{ fontSize: '12px', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Assigned To</div>
+              <div style={{ 
+                display: 'inline-block',
+                marginTop: '4px',
+                background: 'var(--social-bg)', 
+                color: 'var(--text-h)',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                fontSize: '13px',
+                fontWeight: '500',
+                border: '1px solid var(--border)'
+              }}>
+                {customer.assignedTo?.name || 'Unassigned'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Placeholders for Phase 9 and 10 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div className="premium-card" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--social-bg)', borderStyle: 'dashed' }}>
+            <h3 style={{ color: 'var(--text)' }}>Follow-ups (Phase 9)</h3>
+            <p style={{ color: 'var(--text)', fontSize: '14px', textAlign: 'center' }}>
+              Pending and upcoming tasks for this customer will appear here.
+            </p>
+          </div>
+          <div className="premium-card" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--social-bg)', borderStyle: 'dashed' }}>
+            <h3 style={{ color: 'var(--text)' }}>Interactions (Phase 10)</h3>
+            <p style={{ color: 'var(--text)', fontSize: '14px', textAlign: 'center' }}>
+              History of calls, emails, and meetings will appear here.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CustomerDetail;
