@@ -1,5 +1,7 @@
 const Customer = require('../models/Customer');
+const User = require('../models/User');
 const FollowUp = require('../models/FollowUp');
+const Interaction = require('../models/Interaction');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 
@@ -154,10 +156,10 @@ exports.deleteCustomer = catchAsync(async (req, res, next) => {
     return next(new AppError('No customer found with that ID', 404));
   }
 
-  // Cascade delete Follow-ups
+  // Cascade delete Follow-ups and Interactions
   await FollowUp.deleteMany({ customer: req.params.id });
+  await Interaction.deleteMany({ customer: req.params.id });
 
-  // Note: Future phase (10) will require cascading deletion of Interactions here.
   await Customer.findByIdAndDelete(req.params.id);
 
   res.status(200).json({

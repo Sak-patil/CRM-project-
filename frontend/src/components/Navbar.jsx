@@ -19,6 +19,7 @@ const Navbar = () => {
         <Link to="/" style={{ color: '#fff', marginRight: '15px', textDecoration: 'none' }}>Dashboard</Link>
         <Link to="/customers" style={{ color: '#fff', marginRight: '15px', textDecoration: 'none' }}>Customers</Link>
         <Link to="/follow-ups" style={{ color: '#fff', marginRight: '15px', textDecoration: 'none' }}>Follow-ups</Link>
+        <Link to="/interactions" style={{ color: '#fff', marginRight: '15px', textDecoration: 'none' }}>Interactions</Link>
         {user?.role === 'admin' && (
           <Link to="/admin/users" style={{ color: '#fff', marginRight: '15px', textDecoration: 'none' }}>Users</Link>
         )}

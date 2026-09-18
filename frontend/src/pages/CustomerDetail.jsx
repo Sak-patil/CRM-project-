@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getCustomer, deleteCustomer } from '../api/customers';
 import { getFollowUps } from '../api/followUps';
+import { getInteractions } from '../api/interactions';
 import { useAuth } from '../hooks/useAuth';
 
 const CustomerDetail = () => {
@@ -11,6 +12,7 @@ const CustomerDetail = () => {
   
   const [customer, setCustomer] = useState(null);
   const [followUps, setFollowUps] = useState([]);
+  const [interactions, setInteractions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -18,12 +20,14 @@ const CustomerDetail = () => {
     const fetchCustomer = async () => {
       try {
         setLoading(true);
-        const [customerData, followUpsData] = await Promise.all([
+        const [customerData, followUpsData, interactionsData] = await Promise.all([
           getCustomer(id),
-          getFollowUps({ customer: id })
+          getFollowUps({ customer: id }),
+          getInteractions({ customer: id })
         ]);
         setCustomer(customerData.data.customer);
         setFollowUps(followUpsData.data.followUps);
+        setInteractions(interactionsData.data.interactions);
       } catch (err) {
         setError(err.response?.data?.error?.message || 'Failed to load customer details');
       } finally {
@@ -171,11 +175,61 @@ const CustomerDetail = () => {
             )}
           </div>
 
-          <div className="premium-card" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--social-bg)', borderStyle: 'dashed' }}>
-            <h3 style={{ color: 'var(--text)' }}>Interactions (Phase 10)</h3>
-            <p style={{ color: 'var(--text)', fontSize: '14px', textAlign: 'center' }}>
-              History of calls, emails, and meetings will appear here.
-            </p>
+          <div className="premium-card" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div className="flex-between" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '10px', marginBottom: '15px' }}>
+              <h3 style={{ margin: 0 }}>Interaction Timeline</h3>
+              <Link to={`/interactions/new?customer=${id}`} className="premium-btn premium-btn-primary" style={{ padding: '4px 10px', fontSize: '12px' }}>
+                + Log
+              </Link>
+            </div>
+
+            {interactions.length === 0 ? (
+              <p style={{ color: 'var(--text)', fontSize: '14px', textAlign: 'center', marginTop: '20px' }}>
+                No interactions logged yet.
+              </p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', position: 'relative' }}>
+                {/* Vertical timeline line */}
+                <div style={{ position: 'absolute', left: '15px', top: '10px', bottom: '10px', width: '2px', background: 'var(--border)', zIndex: 0 }}></div>
+                
+                {interactions.map(interaction => (
+                  <div key={interaction._id} style={{ display: 'flex', gap: '15px', position: 'relative', zIndex: 1 }}>
+                    <div style={{ 
+                      width: '32px', 
+                      height: '32px', 
+                      borderRadius: '50%', 
+                      background: 'var(--bg)', 
+                      border: '2px solid var(--accent)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                      color: 'var(--accent)',
+                      flexShrink: 0
+                    }}>
+                      {interaction.type.charAt(0)}
+                    </div>
+                    <div style={{ flex: 1, background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '8px', padding: '12px' }}>
+                      <div className="flex-between" style={{ marginBottom: '8px' }}>
+                        <strong style={{ fontSize: '14px', color: 'var(--text-h)' }}>{interaction.summary}</strong>
+                        <span style={{ fontSize: '12px', color: 'var(--text)' }}>{formatDate(interaction.date)}</span>
+                      </div>
+                      <div style={{ fontSize: '12px', color: 'var(--text)', marginBottom: '8px' }}>
+                        <span style={{ fontWeight: '500', color: 'var(--accent)' }}>{interaction.type}</span> 
+                        {interaction.duration && ` • ${interaction.duration} mins`} 
+                        {' • '}Logged by {interaction.createdBy?.name}
+                      </div>
+                      {interaction.notes && (
+                        <p style={{ fontSize: '13px', color: 'var(--text)', margin: 0, whiteSpace: 'pre-wrap' }}>
+                          {interaction.notes}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

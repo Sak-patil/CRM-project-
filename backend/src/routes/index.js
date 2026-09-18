@@ -6,6 +6,9 @@ const authRoutes = require('./authRoutes');
 const userRoutes = require('./userRoutes');
 const customerRoutes = require('./customerRoutes');
 const followUpRoutes = require('./followUpRoutes');
+const interactionRoutes = require('./interactionRoutes');
+
+const router = express.Router();
 
 // Mount routes
 router.use('/health', healthRoutes);
@@ -13,5 +16,6 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/customers', customerRoutes);
 router.use('/follow-ups', followUpRoutes);
+router.use('/interactions', interactionRoutes);
 
 module.exports = router;

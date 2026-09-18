@@ -11,6 +11,8 @@ import UserForm from './pages/admin/UserForm';
 import Profile from './pages/se/Profile';
 import FollowUpsList from './pages/FollowUpsList';
 import FollowUpForm from './pages/FollowUpForm';
+import InteractionsList from './pages/InteractionsList';
+import InteractionForm from './pages/InteractionForm';
 import './App.css';
 
 // Layout component with Navbar
@@ -58,6 +60,9 @@ function App() {
             <Route path="/follow-ups" element={<FollowUpsList />} />
             <Route path="/follow-ups/new" element={<FollowUpForm />} />
             <Route path="/follow-ups/:id/edit" element={<FollowUpForm />} />
+            <Route path="/interactions" element={<InteractionsList />} />
+            <Route path="/interactions/new" element={<InteractionForm />} />
+            <Route path="/interactions/:id/edit" element={<InteractionForm />} />
             <Route path="/se/profile" element={<Profile />} />
           </Route>
 
