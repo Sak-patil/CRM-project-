@@ -7,7 +7,7 @@ const {
   deleteInteraction
 } = require('../controllers/interactionController');
 
-const { requireAuth } = require('../middleware/authMiddleware');
+const { requireAuth } = require('../middleware/auth');
 
 const router = express.Router();
 

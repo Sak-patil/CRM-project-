@@ -8,7 +8,6 @@ const customerRoutes = require('./customerRoutes');
 const followUpRoutes = require('./followUpRoutes');
 const interactionRoutes = require('./interactionRoutes');
 
-const router = express.Router();
 
 // Mount routes
 router.use('/health', healthRoutes);
