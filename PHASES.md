@@ -380,15 +380,15 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - Customer tests
 
 **Completion Criteria:**
-- [ ] All customer CRUD operations work
-- [ ] Search and filtering work
-- [ ] Customer assignment to Sales Executive works
-- [ ] Role-based permissions enforced on all operations
-- [ ] Edge cases handled
-- [ ] Tests pass
-- [ ] Documentation updated
+- [x] All customer CRUD operations work
+- [x] Search and filtering work
+- [x] Customer assignment to Sales Executive works
+- [x] Role-based permissions enforced on all operations
+- [x] Edge cases handled
+- [x] Tests pass
+- [x] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** COMPLETED
 
 ---
 
@@ -426,7 +426,7 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - [ ] Tests pass
 - [ ] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** IN PROGRESS
 
 ---
 

@@ -6,11 +6,13 @@ CRM System — Role-based Customer Relationship Management Application
 
 ## Current Phase
 
-Phase 6 — Tracer Bullet: End-to-End Validation → **COMPLETED**
+## Current Phase
+
+Phase 9 — Follow-up Management → **IN PROGRESS**
 
 ## Current Task
 
-Phase 6 complete. End-to-end architecture is validated. Awaiting instruction to begin Phase 7.
+Implementing Follow-up management, including backend models, controllers, and frontend components.
 
 ## Completed
 
@@ -77,6 +79,19 @@ Phase 6 complete. End-to-end architecture is validated. Awaiting instruction to 
 - ✅ Full architectural slice validated end-to-end
 - ✅ `docs/phases/PHASE_06_TRACER_BULLET.md` created
 
+### Phase 7 — User Management
+- ✅ Admin can create Sales Executive accounts
+- ✅ Admin can view all users, edit user info, deactivate users
+- ✅ Non-Admin users cannot access user management
+- ✅ `docs/phases/PHASE_07_USER_MANAGEMENT.md` created
+
+### Phase 8 — Customer Management
+- ✅ All customer CRUD operations work
+- ✅ Search and filtering work
+- ✅ Customer assignment to Sales Executive works
+- ✅ Role-based permissions enforced on all operations
+- ✅ `docs/phases/PHASE_08_CUSTOMER_MANAGEMENT.md` created
+
 ## Key Decisions Made
 
 | Decision | Resolution |
@@ -95,12 +110,10 @@ Phase 6 complete. End-to-end architecture is validated. Awaiting instruction to 
 
 ## In Progress
 
-None — awaiting instruction to proceed.
+Phase 9 — Follow-up Management
 
 ## Remaining
 
-- Phase 7: User Management
-- Phase 8: Customer Management
 - Phase 9: Follow-up Management
 - Phase 10: Interaction Management
 - Phase 11: Sales Executive Dashboard
@@ -125,7 +138,7 @@ None.
 
 ## Next Planned Phase
 
-Phase 7 — User Management (per `PHASES.md`)
+Phase 9 — Follow-up Management (per `PHASES.md`)
 
 ## Relevant Documentation
 

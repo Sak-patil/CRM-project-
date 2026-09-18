@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { getCustomer, createCustomer, updateCustomer } from '../api/customers';
 import { getUsers } from '../api/users';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 const CustomerForm = () => {
   const { id } = useParams();

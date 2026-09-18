@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getCustomer, deleteCustomer } from '../api/customers';
-import { useAuth } from '../context/AuthContext';
+import { getFollowUps } from '../api/followUps';
+import { useAuth } from '../hooks/useAuth';
 
 const CustomerDetail = () => {
   const { id } = useParams();
@@ -9,6 +10,7 @@ const CustomerDetail = () => {
   const { user } = useAuth();
   
   const [customer, setCustomer] = useState(null);
+  const [followUps, setFollowUps] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -16,8 +18,12 @@ const CustomerDetail = () => {
     const fetchCustomer = async () => {
       try {
         setLoading(true);
-        const data = await getCustomer(id);
-        setCustomer(data.data.customer);
+        const [customerData, followUpsData] = await Promise.all([
+          getCustomer(id),
+          getFollowUps({ customer: id })
+        ]);
+        setCustomer(customerData.data.customer);
+        setFollowUps(followUpsData.data.followUps);
       } catch (err) {
         setError(err.response?.data?.error?.message || 'Failed to load customer details');
       } finally {
@@ -42,6 +48,11 @@ const CustomerDetail = () => {
   if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Loading customer details...</div>;
   if (error) return <div style={{ padding: '20px', color: '#ff4757', textAlign: 'center' }}>{error}</div>;
   if (!customer) return <div style={{ padding: '20px', textAlign: 'center' }}>Customer not found.</div>;
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div style={{ padding: '20px' }}>
@@ -118,14 +129,48 @@ const CustomerDetail = () => {
           </div>
         </div>
 
-        {/* Placeholders for Phase 9 and 10 */}
+        {/* Follow-ups and Interactions */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div className="premium-card" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--social-bg)', borderStyle: 'dashed' }}>
-            <h3 style={{ color: 'var(--text)' }}>Follow-ups (Phase 9)</h3>
-            <p style={{ color: 'var(--text)', fontSize: '14px', textAlign: 'center' }}>
-              Pending and upcoming tasks for this customer will appear here.
-            </p>
+          
+          <div className="premium-card">
+            <div className="flex-between" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '10px', marginBottom: '15px' }}>
+              <h3 style={{ margin: 0 }}>Follow-ups</h3>
+              <Link to={`/follow-ups/new?customer=${id}`} className="premium-btn premium-btn-primary" style={{ padding: '4px 10px', fontSize: '12px' }}>
+                + Add
+              </Link>
+            </div>
+            
+            {followUps.length === 0 ? (
+              <p style={{ color: 'var(--text)', fontSize: '14px', textAlign: 'center' }}>
+                No follow-ups for this customer.
+              </p>
+            ) : (
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {followUps.map(fu => (
+                  <li key={fu._id} style={{ 
+                    padding: '10px', 
+                    border: '1px solid var(--border)', 
+                    borderRadius: '8px',
+                    background: fu.isOverdue ? 'rgba(255, 71, 87, 0.05)' : 'var(--bg)',
+                    borderColor: fu.isOverdue ? '#ff4757' : 'var(--border)'
+                  }}>
+                    <div className="flex-between" style={{ marginBottom: '5px' }}>
+                      <strong style={{ fontSize: '14px', color: fu.isOverdue ? '#ff4757' : 'var(--text-h)' }}>
+                        {formatDate(fu.date)}
+                        {fu.isOverdue && <span style={{ marginLeft: '6px', fontSize: '10px', background: '#ff4757', color: '#fff', padding: '2px 4px', borderRadius: '4px' }}>OVERDUE</span>}
+                      </strong>
+                      <span style={{ fontSize: '12px', fontWeight: '500', color: 'var(--text)' }}>{fu.status}</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: '13px', color: 'var(--text)' }}>{fu.notes || 'No notes'}</p>
+                    <div style={{ marginTop: '8px', textAlign: 'right' }}>
+                       <Link to={`/follow-ups/${fu._id}/edit`} style={{ fontSize: '12px', color: 'var(--accent)', textDecoration: 'none' }}>Edit</Link>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
+
           <div className="premium-card" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--social-bg)', borderStyle: 'dashed' }}>
             <h3 style={{ color: 'var(--text)' }}>Interactions (Phase 10)</h3>
             <p style={{ color: 'var(--text)', fontSize: '14px', textAlign: 'center' }}>

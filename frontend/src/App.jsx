@@ -9,6 +9,8 @@ import CustomerDetail from './pages/CustomerDetail';
 import UsersList from './pages/admin/UsersList';
 import UserForm from './pages/admin/UserForm';
 import Profile from './pages/se/Profile';
+import FollowUpsList from './pages/FollowUpsList';
+import FollowUpForm from './pages/FollowUpForm';
 import './App.css';
 
 // Layout component with Navbar
@@ -53,6 +55,9 @@ function App() {
             <Route path="/customers/new" element={<CustomerForm />} />
             <Route path="/customers/:id/edit" element={<CustomerForm />} />
             <Route path="/customers/:id" element={<CustomerDetail />} />
+            <Route path="/follow-ups" element={<FollowUpsList />} />
+            <Route path="/follow-ups/new" element={<FollowUpForm />} />
+            <Route path="/follow-ups/:id/edit" element={<FollowUpForm />} />
             <Route path="/se/profile" element={<Profile />} />
           </Route>
 
