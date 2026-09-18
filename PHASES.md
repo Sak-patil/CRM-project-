@@ -649,8 +649,6 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 
 **Status:** NOT STARTED
 
----
-
 ## Phase 16 — Deployment & Production Readiness
 
 **Objective:** Prepare the application for production deployment — environment configuration, build optimization, deployment scripts, and production infrastructure setup.
