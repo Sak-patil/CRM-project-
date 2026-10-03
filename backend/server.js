@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 const connectDB = require('./src/config/db');
 const errorHandler = require('./src/middleware/errorHandler');
@@ -22,8 +25,23 @@ const app = express();
 
 // Global Middleware
 app.use(helmet()); // Set security HTTP headers
+
+// Rate Limiting
+const limiter = rateLimit({
+  max: 100, // Limit each IP to 100 requests per `window`
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  message: 'Too many requests from this IP, please try again in 15 minutes.'
+});
+app.use('/api', limiter);
+
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Body parser
+
+// Data Sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
+// Data Sanitization against XSS
+app.use(xss());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); // HTTP request logging
 }
