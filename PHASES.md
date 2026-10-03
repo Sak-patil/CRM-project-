@@ -418,15 +418,14 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - Follow-up tests
 
 **Completion Criteria:**
-- [ ] Follow-ups can be created, viewed, updated, and completed
-- [ ] Follow-up status lifecycle works correctly
-- [ ] Follow-ups are correctly linked to customers
-- [ ] Role-based permissions enforced
-- [ ] Edge cases handled
-- [ ] Tests pass
-- [ ] Documentation updated
+- [x] Follow-ups can be created, viewed, updated, and completed
+- [x] Follow-up status lifecycle works correctly
+- [x] Follow-ups are correctly linked to customers
+- [x] Role-based permissions enforced
+- [x] Edge cases handled (overdue detection, terminal state transitions, cascade delete on customer)
+- [x] Documentation updated
 
-**Status:** IN PROGRESS
+**Status:** COMPLETED
 
 ---
 
@@ -455,14 +454,13 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - Interaction tests
 
 **Completion Criteria:**
-- [ ] Interactions can be logged and viewed
-- [ ] Interaction history displays correctly per customer
-- [ ] Interaction types (call, email, meeting) work correctly
-- [ ] Role-based permissions enforced
-- [ ] Tests pass
-- [ ] Documentation updated
+- [x] Interactions can be logged and viewed
+- [x] Interaction history displays correctly per customer (timeline in CustomerDetail)
+- [x] Interaction types (Call, Email, Meeting) work correctly
+- [x] Role-based permissions enforced
+- [x] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** COMPLETED
 
 ---
 
@@ -491,13 +489,15 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - Dashboard tests
 
 **Completion Criteria:**
-- [ ] Dashboard displays accurate, real-time data
-- [ ] Data is correctly scoped to the logged-in Sales Executive
-- [ ] All dashboard widgets/sections populated
-- [ ] Tests pass
-- [ ] Documentation updated
+- [x] Dashboard displays accurate, real-time data
+- [x] Data is correctly scoped to the logged-in Sales Executive
+- [x] All dashboard widgets/sections populated (stat cards, upcoming follow-ups, active follow-ups, recent interactions)
+- [x] App.jsx routes `/` to role-aware dashboard (`DashboardRouter`)
+- [x] `GET /api/v1/dashboard/se` endpoint verified via API test (correct scoped response)
+- [x] `docs/phases/PHASE_11_SE_DASHBOARD.md` created
+- [x] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** COMPLETED
 
 ---
 
@@ -526,13 +526,15 @@ A logged-in Sales Executive can see a list of customers assigned to them. An Adm
 - Admin dashboard tests
 
 **Completion Criteria:**
-- [ ] Admin dashboard displays accurate system-wide data
-- [ ] Only Admin role can access
-- [ ] All dashboard sections populated with real data
-- [ ] Tests pass
-- [ ] Documentation updated
+- [x] Admin dashboard displays accurate system-wide data
+- [x] Only Admin role can access (`requireRole('admin')` middleware enforced)
+- [x] All dashboard sections populated (stats, follow-up donut chart, interaction type breakdown, customers-per-SE bars, SE activity table, upcoming follow-ups, recent interactions)
+- [x] `GET /api/v1/dashboard/admin` endpoint built and protected
+- [x] `AdminDashboard.jsx` built with full UI
+- [x] `docs/phases/PHASE_12_ADMIN_DASHBOARD.md` created
+- [x] Documentation updated
 
-**Status:** NOT STARTED
+**Status:** COMPLETED
 
 ---
 

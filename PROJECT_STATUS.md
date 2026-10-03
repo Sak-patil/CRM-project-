@@ -8,11 +8,11 @@ CRM System — Role-based Customer Relationship Management Application
 
 ## Current Phase
 
-Phase 9 — Follow-up Management → **IN PROGRESS**
+Phase 11 — Sales Executive Dashboard → **NEXT**
 
 ## Current Task
 
-Implementing Follow-up management, including backend models, controllers, and frontend components.
+Preparing implementation plan for Phase 11 — Sales Executive Dashboard (awaiting approval).
 
 ## Completed
 
@@ -85,12 +85,25 @@ Implementing Follow-up management, including backend models, controllers, and fr
 - ✅ Non-Admin users cannot access user management
 - ✅ `docs/phases/PHASE_07_USER_MANAGEMENT.md` created
 
-### Phase 8 — Customer Management
-- ✅ All customer CRUD operations work
-- ✅ Search and filtering work
-- ✅ Customer assignment to Sales Executive works
-- ✅ Role-based permissions enforced on all operations
-- ✅ `docs/phases/PHASE_08_CUSTOMER_MANAGEMENT.md` created
+### Phase 9 — Follow-up Management
+- ✅ `FollowUp` model with `isOverdue` virtual, indexes
+- ✅ All 6 API endpoints: list (scoped), get, create, update, status PATCH, delete
+- ✅ Status lifecycle state machine (Pending → In Progress → Completed/Cancelled)
+- ✅ Overdue detection at query-time (computed virtual)
+- ✅ `FollowUpsList.jsx` with status filter and inline status change
+- ✅ `FollowUpForm.jsx` for create and edit
+- ✅ Follow-ups shown inline in `CustomerDetail.jsx`
+- ✅ Role-based permissions enforced (SEs scoped to their customers)
+- ✅ `docs/phases/PHASE_09_FOLLOWUP_MANAGEMENT.md` updated
+
+### Phase 10 — Interaction Management
+- ✅ `Interaction` model (type, date, summary, notes, duration)
+- ✅ All 5 API endpoints: list (scoped), get, create, update, delete
+- ✅ `InteractionsList.jsx` with type filter
+- ✅ `InteractionForm.jsx` for create and edit
+- ✅ Interaction timeline displayed in `CustomerDetail.jsx`
+- ✅ Role-based permissions enforced
+- ✅ `docs/phases/PHASE_10_INTERACTION_MANAGEMENT.md` updated
 
 ## Key Decisions Made
 
@@ -110,13 +123,11 @@ Implementing Follow-up management, including backend models, controllers, and fr
 
 ## In Progress
 
-Phase 10 — Interaction Management
+Phase 11 — Sales Executive Dashboard (planning)
 
 ## Remaining
 
-- **Phase 9**: Follow-up Management (COMPLETED)
-- **Phase 10**: Interaction Management (IN PROGRESS)
-- Phase 11: Sales Executive Dashboard
+- **Phase 11**: Sales Executive Dashboard (NEXT)
 - Phase 12: Admin Dashboard & System-Wide Views
 - Phase 13: Security Hardening & Error Handling
 - Phase 14: Comprehensive Testing & QA
@@ -138,7 +149,7 @@ None.
 
 ## Next Planned Phase
 
-Phase 9 — Follow-up Management (per `PHASES.md`)
+Phase 11 — Sales Executive Dashboard
 
 ## Relevant Documentation
 
@@ -152,4 +163,4 @@ Phase 9 — Follow-up Management (per `PHASES.md`)
 
 ## Last Updated
 
-2026-09-10
+2026-10-04

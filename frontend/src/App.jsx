@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { useAuth } from './hooks/useAuth';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
@@ -13,6 +14,8 @@ import FollowUpsList from './pages/FollowUpsList';
 import FollowUpForm from './pages/FollowUpForm';
 import InteractionsList from './pages/InteractionsList';
 import InteractionForm from './pages/InteractionForm';
+import SeDashboard from './pages/SeDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
 
 // Layout component with Navbar
@@ -27,14 +30,11 @@ const AppLayout = () => {
   );
 };
 
-// Placeholder Dashboard component
-const Dashboard = () => {
-  return (
-    <div style={{ padding: '20px' }}>
-      <h1>CRM Dashboard</h1>
-      <p>Welcome to the CRM system. You are logged in.</p>
-    </div>
-  );
+// Role-aware Dashboard: Admin → AdminDashboard, SE → SeDashboard
+const DashboardRouter = () => {
+  const { user } = useAuth();
+  if (!user) return null;
+  return user.role === 'admin' ? <AdminDashboard /> : <SeDashboard />;
 };
 
 function App() {
@@ -43,16 +43,16 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          
+
           {/* Protected Routes wrapped in AppLayout */}
-          <Route 
+          <Route
             element={
               <ProtectedRoute>
                 <AppLayout />
               </ProtectedRoute>
             }
           >
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<DashboardRouter />} />
             <Route path="/customers" element={<CustomersList />} />
             <Route path="/customers/new" element={<CustomerForm />} />
             <Route path="/customers/:id/edit" element={<CustomerForm />} />
@@ -66,8 +66,8 @@ function App() {
             <Route path="/se/profile" element={<Profile />} />
           </Route>
 
-          {/* Admin Protected Routes wrapped in AppLayout */}
-          <Route 
+          {/* Admin-only Routes */}
+          <Route
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <AppLayout />
@@ -78,7 +78,7 @@ function App() {
             <Route path="/admin/users/new" element={<UserForm />} />
             <Route path="/admin/users/:id/edit" element={<UserForm />} />
           </Route>
-          
+
           {/* Catch-all route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -88,3 +88,4 @@ function App() {
 }
 
 export default App;
+

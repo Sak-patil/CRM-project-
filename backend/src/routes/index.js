@@ -7,6 +7,7 @@ const userRoutes = require('./userRoutes');
 const customerRoutes = require('./customerRoutes');
 const followUpRoutes = require('./followUpRoutes');
 const interactionRoutes = require('./interactionRoutes');
+const dashboardRoutes = require('./dashboardRoutes');
 
 
 // Mount routes
@@ -16,5 +17,6 @@ router.use('/users', userRoutes);
 router.use('/customers', customerRoutes);
 router.use('/follow-ups', followUpRoutes);
 router.use('/interactions', interactionRoutes);
+router.use('/dashboard', dashboardRoutes);
 
 module.exports = router;
