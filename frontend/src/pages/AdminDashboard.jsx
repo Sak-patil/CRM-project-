@@ -70,18 +70,26 @@ const DonutChart = ({ segments }) => {
 };
 
 // ---- Horizontal Bar for SE Breakdown ----
-const SeBar = ({ name, count, total, color = '#6c63ff' }) => {
+const SeBar = ({ id, name, count, total, color = '#6c63ff' }) => {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+  
   return (
-    <div className="dash-se-bar-row">
-      <div className="dash-se-bar-label">
-        <span className="dash-se-name">{name || 'Unknown'}</span>
-        <span className="dash-se-count">{count} customers</span>
-      </div>
-      <div className="dash-se-bar-track">
-        <div className="dash-se-bar-fill" style={{ width: `${pct}%`, background: color }} />
-      </div>
-      <span className="dash-se-pct">{pct}%</span>
+    <div className="dash-se-bar-container" style={{ marginBottom: '8px' }}>
+      <Link 
+        to={`/admin/users/${id}/progress`}
+        className="dash-se-bar-row" 
+        style={{ cursor: 'pointer', padding: '4px', borderRadius: '4px', textDecoration: 'none', display: 'flex', color: 'inherit' }}
+        title="Click to view detailed SE progress"
+      >
+        <div className="dash-se-bar-label">
+          <span className="dash-se-name">{name || 'Unknown'} <span style={{fontSize: '0.8em', color: 'var(--text-light)', marginLeft: '4px'}}>↗</span></span>
+          <span className="dash-se-count">{count} customers</span>
+        </div>
+        <div className="dash-se-bar-track">
+          <div className="dash-se-bar-fill" style={{ width: `${pct}%`, background: color }} />
+        </div>
+        <span className="dash-se-pct">{pct}%</span>
+      </Link>
     </div>
   );
 };
@@ -277,9 +285,9 @@ const AdminDashboard = () => {
                 <p>No customers assigned yet.</p>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {customersPerSe.map((se, i) => (
-                  <SeBar key={i} name={se.name} count={se.count} total={totalCustomers} color={['#6c63ff', '#3498db', '#e67e22', '#2ecc71', '#e74c3c'][i % 5]} />
+                  <SeBar key={i} id={se._id} name={se.name} count={se.count} total={totalCustomers} color={['#6c63ff', '#3498db', '#e67e22', '#2ecc71', '#e74c3c'][i % 5]} />
                 ))}
               </div>
             )}

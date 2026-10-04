@@ -72,7 +72,7 @@ const FollowUpsList = () => {
     <div style={{ padding: '20px' }}>
       <div className="page-header flex-between">
         <div>
-          <h2>Follow-ups</h2>
+          <h2>Follow-ups Kanban</h2>
           <p style={{ color: 'var(--text)', fontSize: '14px' }}>
             {user?.role === 'admin' ? 'System-wide follow-ups' : 'Manage your assigned follow-ups'}
           </p>
@@ -83,108 +83,64 @@ const FollowUpsList = () => {
       </div>
 
       <div className="premium-card">
-        <div className="flex-row" style={{ marginBottom: '20px', gap: '15px' }}>
-          <select 
-            className="premium-input" 
-            style={{ width: '200px' }}
-            value={statusFilter}
-            onChange={(e) => setSearchParams(e.target.value ? { status: e.target.value } : {})}
-          >
-            <option value="">All Statuses</option>
-            <option value="Pending">Pending</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-        </div>
-
         {error && <div style={{ color: '#ff4757', marginBottom: '16px' }}>{error}</div>}
 
         {loading ? (
           <div style={{ padding: '20px', textAlign: 'center' }}>Loading follow-ups...</div>
-        ) : followUps.length === 0 ? (
-          <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--text)' }}>
-            No follow-ups found.
-          </div>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table className="premium-table">
-              <thead>
-                <tr>
-                  <th>Date & Time</th>
-                  <th>Customer</th>
-                  <th>Status</th>
-                  <th>Notes</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {followUps.map((fu) => {
-                  const colors = getStatusColor(fu.status, fu.isOverdue);
-                  return (
-                    <tr key={fu._id} style={fu.isOverdue ? { backgroundColor: 'rgba(255, 71, 87, 0.05)' } : {}}>
-                      <td style={{ fontWeight: fu.isOverdue ? 'bold' : 'normal', color: fu.isOverdue ? '#ff4757' : 'inherit' }}>
-                        {formatDate(fu.date)}
-                        {fu.isOverdue && <span style={{ marginLeft: '8px', fontSize: '11px', color: '#ff4757', border: '1px solid #ff4757', borderRadius: '4px', padding: '2px 4px' }}>OVERDUE</span>}
-                      </td>
-                      <td>
-                        <Link to={`/customers/${fu.customer?._id}`} style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: '500' }}>
-                          {fu.customer?.name || 'Unknown'}
-                        </Link>
-                      </td>
-                      <td>
-                        <span style={{ 
-                          background: colors.bg, 
-                          color: colors.color,
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          fontWeight: '500'
-                        }}>
-                          {fu.status}
-                        </span>
-                      </td>
-                      <td style={{ maxWidth: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {fu.notes || '-'}
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        <div className="flex-row" style={{ justifyContent: 'flex-end', gap: '8px' }}>
-                          
-                          {/* Quick status actions for Pending/In Progress */}
-                          {(fu.status === 'Pending' || fu.status === 'In Progress') && (
-                            <select 
-                              className="premium-input"
-                              style={{ padding: '4px 8px', fontSize: '12px', width: 'auto', minWidth: '110px' }}
-                              value={fu.status}
-                              onChange={(e) => handleStatusChange(fu._id, e.target.value)}
-                            >
-                              <option value="Pending" disabled={fu.status !== 'Pending'}>Pending</option>
-                              <option value="In Progress">In Progress</option>
-                              <option value="Completed">Completed</option>
-                              <option value="Cancelled">Cancelled</option>
-                            </select>
-                          )}
-
-                          {((fu.status !== 'Completed' && fu.status !== 'Cancelled') || user?.role === 'admin') && (
-                            <Link to={`/follow-ups/${fu._id}/edit`} className="premium-btn premium-btn-secondary" style={{ padding: '4px 10px', fontSize: '12px' }}>
-                              Edit
-                            </Link>
-                          )}
-                          
-                          <button 
-                            onClick={() => handleDelete(fu._id)}
-                            className="premium-btn premium-btn-danger" 
-                            style={{ padding: '4px 10px', fontSize: '12px' }}
-                          >
-                            Delete
-                          </button>
+          <div style={{ display: 'flex', gap: '20px', overflowX: 'auto', paddingBottom: '10px' }}>
+            {['Pending', 'In Progress', 'Completed'].map(status => (
+              <div key={status} style={{ flex: '1', minWidth: '300px', background: '#f8f9fa', borderRadius: '8px', padding: '16px' }}>
+                <h3 style={{ borderBottom: `3px solid ${getStatusColor(status).color}`, paddingBottom: '8px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between' }}>
+                  {status} 
+                  <span style={{ background: '#e2e8f0', color: '#64748b', borderRadius: '12px', padding: '2px 8px', fontSize: '0.8rem' }}>
+                    {followUps.filter(f => f.status === status).length}
+                  </span>
+                </h3>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {followUps.filter(f => f.status === status).length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '20px', color: '#a0aec0', fontSize: '0.9rem' }}>No {status} follow-ups</div>
+                  ) : (
+                    followUps.filter(f => f.status === status).map(fu => (
+                      <div key={fu._id} style={{ background: '#fff', borderRadius: '6px', padding: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderLeft: `4px solid ${fu.isOverdue ? '#ff4757' : getStatusColor(status).color}` }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                          <Link to={`/customers/${fu.customer?._id}`} style={{ fontWeight: '600', color: 'var(--accent)', textDecoration: 'none' }}>
+                            {fu.customer?.name || 'Unknown'}
+                          </Link>
+                          {fu.isOverdue && <span style={{ fontSize: '10px', color: '#ff4757', border: '1px solid #ff4757', borderRadius: '3px', padding: '1px 3px' }}>OVERDUE</span>}
                         </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                        <div style={{ fontSize: '0.85rem', color: '#718096', marginBottom: '8px' }}>
+                          📅 {formatDate(fu.date)}
+                        </div>
+                        {fu.notes && (
+                          <div style={{ fontSize: '0.85rem', color: '#4a5568', marginBottom: '12px', padding: '8px', background: '#f1f5f9', borderRadius: '4px' }}>
+                            {fu.notes}
+                          </div>
+                        )}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', borderTop: '1px solid #edf2f7', paddingTop: '8px' }}>
+                          
+                          {/* Quick Actions / Move Next */}
+                          <div>
+                            {status === 'Pending' && (
+                              <button onClick={() => handleStatusChange(fu._id, 'In Progress')} className="premium-btn premium-btn-secondary" style={{ padding: '4px 8px', fontSize: '11px', marginRight: '4px' }}>Move to In Progress ➔</button>
+                            )}
+                            {status === 'In Progress' && (
+                              <button onClick={() => handleStatusChange(fu._id, 'Completed')} className="premium-btn premium-btn-primary" style={{ padding: '4px 8px', fontSize: '11px', background: '#2ecc71', color: 'white', marginRight: '4px' }}>Complete ✓</button>
+                            )}
+                          </div>
+                          
+                          <div style={{ display: 'flex', gap: '4px' }}>
+                            <Link to={`/follow-ups/${fu._id}/edit`} className="premium-btn premium-btn-secondary" style={{ padding: '4px', fontSize: '12px' }} title="Edit">✏️</Link>
+                            <button onClick={() => handleDelete(fu._id)} className="premium-btn premium-btn-danger" style={{ padding: '4px', fontSize: '12px' }} title="Delete">🗑️</button>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

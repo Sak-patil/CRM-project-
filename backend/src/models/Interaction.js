@@ -41,4 +41,29 @@ const interactionSchema = new mongoose.Schema({
   timestamps: true
 });
 
+interactionSchema.statics.calcLastInteraction = async function(customerId) {
+  const stats = await this.aggregate([
+    { $match: { customer: customerId } },
+    { $group: { _id: '$customer', latestDate: { $max: '$date' } } }
+  ]);
+
+  if (stats.length > 0) {
+    await mongoose.model('Customer').findByIdAndUpdate(customerId, {
+      lastInteractionDate: stats[0].latestDate
+    });
+  } else {
+    await mongoose.model('Customer').findByIdAndUpdate(customerId, {
+      lastInteractionDate: null
+    });
+  }
+};
+
+interactionSchema.post('save', function() {
+  this.constructor.calcLastInteraction(this.customer);
+});
+
+interactionSchema.post('findOneAndDelete', async function(doc) {
+  if (doc) await doc.constructor.calcLastInteraction(doc.customer);
+});
+
 module.exports = mongoose.model('Interaction', interactionSchema);

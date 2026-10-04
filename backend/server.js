@@ -4,8 +4,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
 
 const connectDB = require('./src/config/db');
 const errorHandler = require('./src/middleware/errorHandler');
@@ -37,11 +35,6 @@ app.use('/api', limiter);
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Body parser
 
-// Data Sanitization against NoSQL query injection
-app.use(mongoSanitize());
-
-// Data Sanitization against XSS
-app.use(xss());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); // HTTP request logging
 }

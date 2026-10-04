@@ -10,6 +10,7 @@ const Login = () => {
   
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [selectedRole, setSelectedRole] = useState('admin');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +41,43 @@ const Login = () => {
         
         {error && <div className="error-message">{error}</div>}
         
+        <div className="role-selector" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+          <button 
+            type="button" 
+            onClick={() => setSelectedRole('admin')}
+            style={{ 
+              flex: 1, 
+              padding: '10px', 
+              backgroundColor: selectedRole === 'admin' ? '#6c63ff' : '#e2e8f0', 
+              color: selectedRole === 'admin' ? '#fff' : '#333',
+              border: 'none', 
+              borderRadius: '5px', 
+              cursor: 'pointer', 
+              fontWeight: '500',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            👨‍💼 Admin
+          </button>
+          <button 
+            type="button" 
+            onClick={() => setSelectedRole('sales')}
+            style={{ 
+              flex: 1, 
+              padding: '10px', 
+              backgroundColor: selectedRole === 'sales' ? '#6c63ff' : '#e2e8f0', 
+              color: selectedRole === 'sales' ? '#fff' : '#333',
+              border: 'none', 
+              borderRadius: '5px', 
+              cursor: 'pointer', 
+              fontWeight: '500',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            🧑‍💻 Sales Exec
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="email">Email</label>

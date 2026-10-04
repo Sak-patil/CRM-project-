@@ -87,6 +87,7 @@ const CustomersList = () => {
               <thead>
                 <tr>
                   <th>Name</th>
+                  <th>Health</th>
                   <th>Email</th>
                   <th>Phone</th>
                   {user?.role === 'admin' && <th>Assigned To</th>}
@@ -97,6 +98,34 @@ const CustomersList = () => {
                 {customers.map((customer) => (
                   <tr key={customer._id}>
                     <td style={{ fontWeight: '500' }}>{customer.name}</td>
+                    <td>
+                      {(() => {
+                        const now = new Date();
+                        const lastInt = customer.lastInteractionDate ? new Date(customer.lastInteractionDate) : null;
+                        
+                        let statusColor = '#e74c3c'; // Red
+                        let statusText = 'Cold';
+                        
+                        if (lastInt) {
+                          const diffTime = Math.abs(now - lastInt);
+                          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                          if (diffDays <= 7) {
+                            statusColor = '#2ecc71'; // Green
+                            statusText = 'Hot';
+                          } else if (diffDays <= 14) {
+                            statusColor = '#f39c12'; // Yellow
+                            statusText = 'Warm';
+                          }
+                        }
+                        
+                        return (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: statusColor }}></span>
+                            <span style={{ fontSize: '12px', fontWeight: '500', color: statusColor }}>{statusText}</span>
+                          </div>
+                        );
+                      })()}
+                    </td>
                     <td>{customer.email}</td>
                     <td>{customer.phone}</td>
                     {user?.role === 'admin' && (

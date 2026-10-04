@@ -9,6 +9,7 @@ import CustomerForm from './pages/CustomerForm';
 import CustomerDetail from './pages/CustomerDetail';
 import UsersList from './pages/admin/UsersList';
 import UserForm from './pages/admin/UserForm';
+import SeProgressView from './pages/admin/SeProgressView';
 import Profile from './pages/se/Profile';
 import FollowUpsList from './pages/FollowUpsList';
 import FollowUpForm from './pages/FollowUpForm';
@@ -77,6 +78,7 @@ function App() {
             <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/users/new" element={<UserForm />} />
             <Route path="/admin/users/:id/edit" element={<UserForm />} />
+            <Route path="/admin/users/:id/progress" element={<SeProgressView />} />
           </Route>
 
           {/* Catch-all route */}

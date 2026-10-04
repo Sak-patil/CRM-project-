@@ -16,10 +16,12 @@ exports.getSeDashboard = catchAsync(async (req, res, next) => {
   let customerFilter = {};
   if (req.user.role === 'salesExecutive') {
     customerFilter = { assignedTo: req.user.id };
+  } else if (req.user.role === 'admin' && req.query.userId) {
+    customerFilter = { assignedTo: req.query.userId };
   }
 
   // 1. Get assigned customers
-  const assignedCustomers = await Customer.find(customerFilter).select('_id');
+  const assignedCustomers = await Customer.find(customerFilter).select('_id name email phone');
   const customerIds = assignedCustomers.map(c => c._id);
   const customerCount = customerIds.length;
 
@@ -99,6 +101,7 @@ exports.getSeDashboard = catchAsync(async (req, res, next) => {
         },
         interactionCount: await Interaction.countDocuments({ customer: { $in: customerIds } })
       },
+      customers: assignedCustomers,
       upcomingFollowUps: upcomingFollowUps.map(processFollowUp),
       activeFollowUps: recentFollowUps.map(processFollowUp),
       recentInteractions
@@ -166,7 +169,8 @@ exports.getAdminDashboard = catchAsync(async (req, res, next) => {
       {
         $group: {
           _id: '$assignedTo',
-          count: { $sum: 1 }
+          count: { $sum: 1 },
+          customers: { $push: { _id: '$_id', name: '$name', email: '$email', phone: '$phone' } }
         }
       },
       {
@@ -182,7 +186,8 @@ exports.getAdminDashboard = catchAsync(async (req, res, next) => {
           _id: 1,
           count: 1,
           name: { $arrayElemAt: ['$user.name', 0] },
-          email: { $arrayElemAt: ['$user.email', 0] }
+          email: { $arrayElemAt: ['$user.email', 0] },
+          customers: 1
         }
       },
       { $sort: { count: -1 } }

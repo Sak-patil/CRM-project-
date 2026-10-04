@@ -44,6 +44,10 @@ const customerSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: [true, 'A customer must have a creator']
+    },
+    lastInteractionDate: {
+      type: Date,
+      default: null
     }
   },
   {
