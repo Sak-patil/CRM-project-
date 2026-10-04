@@ -49,7 +49,7 @@ const CustomersList = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="content-page" style={{ padding: '28px 32px' }}>
       <div className="page-header flex-between">
         <div>
           <h2>Customers</h2>
@@ -62,8 +62,8 @@ const CustomersList = () => {
         </Link>
       </div>
 
-      <div className="premium-card">
-        <div className="flex-row" style={{ marginBottom: '20px' }}>
+      <div className="premium-card list-card">
+        <div className="list-toolbar">
           <input
             type="text"
             className="premium-input search-bar"
@@ -97,7 +97,7 @@ const CustomersList = () => {
               <tbody>
                 {customers.map((customer) => (
                   <tr key={customer._id}>
-                    <td style={{ fontWeight: '500' }}>{customer.name}</td>
+                    <td><Link to={`/customers/${customer._id}`} className="table-primary-link">{customer.name}</Link></td>
                     <td>
                       {(() => {
                         const now = new Date();
@@ -119,9 +119,9 @@ const CustomersList = () => {
                         }
                         
                         return (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span style={{ display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: statusColor }}></span>
-                            <span style={{ fontSize: '12px', fontWeight: '500', color: statusColor }}>{statusText}</span>
+                          <div className="health-status">
+                            <span className="health-dot" style={{ backgroundColor: statusColor }}></span>
+                            <span style={{ color: statusColor }}>{statusText}</span>
                           </div>
                         );
                       })()}
@@ -130,14 +130,7 @@ const CustomersList = () => {
                     <td>{customer.phone}</td>
                     {user?.role === 'admin' && (
                       <td>
-                        <span style={{ 
-                          background: 'var(--accent-bg)', 
-                          color: 'var(--accent)',
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          fontWeight: '500'
-                        }}>
+                        <span className="owner-badge">
                           {customer.assignedTo?.name || 'Unassigned'}
                         </span>
                       </td>

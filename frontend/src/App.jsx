@@ -17,6 +17,7 @@ import InteractionsList from './pages/InteractionsList';
 import InteractionForm from './pages/InteractionForm';
 import SeDashboard from './pages/SeDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import Landing from './pages/Landing';
 import './App.css';
 
 // Layout component with Navbar
@@ -43,6 +44,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
+          <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
 
           {/* Protected Routes wrapped in AppLayout */}
@@ -53,7 +55,7 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route path="/" element={<DashboardRouter />} />
+            <Route path="/dashboard" element={<DashboardRouter />} />
             <Route path="/customers" element={<CustomersList />} />
             <Route path="/customers/new" element={<CustomerForm />} />
             <Route path="/customers/:id/edit" element={<CustomerForm />} />
@@ -90,4 +92,3 @@ function App() {
 }
 
 export default App;
-

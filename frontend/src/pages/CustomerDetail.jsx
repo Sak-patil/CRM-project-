@@ -49,9 +49,9 @@ const CustomerDetail = () => {
     }
   };
 
-  if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Loading customer details...</div>;
-  if (error) return <div style={{ padding: '20px', color: '#ff4757', textAlign: 'center' }}>{error}</div>;
-  if (!customer) return <div style={{ padding: '20px', textAlign: 'center' }}>Customer not found.</div>;
+  if (loading) return <div className="content-page" style={{ padding: '28px 32px', textAlign: 'center' }}>Loading customer details...</div>;
+  if (error) return <div className="content-page" style={{ padding: '28px 32px', color: '#b42318', textAlign: 'center' }}>{error}</div>;
+  if (!customer) return <div className="content-page" style={{ padding: '28px 32px', textAlign: 'center' }}>Customer not found.</div>;
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -59,7 +59,7 @@ const CustomerDetail = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="content-page" style={{ padding: '28px 32px' }}>
       <div className="page-header flex-between">
         <div>
           <h2>Customer Details</h2>

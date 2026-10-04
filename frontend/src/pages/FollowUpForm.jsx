@@ -97,13 +97,13 @@ const FollowUpForm = () => {
     }
   };
 
-  if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Loading form data...</div>;
+  if (loading) return <div className="content-page" style={{ padding: '28px 32px', textAlign: 'center' }}>Loading form data...</div>;
 
   const isTerminalState = isEditing && (formData.status === 'Completed' || formData.status === 'Cancelled');
   const readOnlyFields = isTerminalState && user?.role !== 'admin';
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+    <div className="content-page form-page" style={{ padding: '28px 32px', maxWidth: '680px', margin: '0 auto' }}>
       <div className="page-header flex-between">
         <h2>{isEditing ? 'Edit Follow-up' : 'Add New Follow-up'}</h2>
         <button onClick={() => navigate(-1)} className="premium-btn premium-btn-secondary" style={{ padding: '6px 12px' }}>

@@ -39,43 +39,38 @@ const UsersList = () => {
     }
   };
 
-  if (loading) return <div>Loading users...</div>;
+  if (loading) return <div className="content-page" style={{ padding: '28px 32px' }}>Loading team members...</div>;
 
   return (
-    <div className="users-list-container" style={{ padding: '20px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2>Sales Executives</h2>
-        <Link to="/admin/users/new" className="btn-primary" style={{ textDecoration: 'none' }}>
-          + Add New User
+    <div className="content-page" style={{ padding: '28px 32px' }}>
+      <div className="page-header flex-between">
+        <div><h2>Sales team</h2><p>Manage account owners and their access.</p></div>
+        <Link to="/admin/users/new" className="premium-btn premium-btn-primary">
+          + Add team member
         </Link>
       </div>
 
       {error && <div className="error-message">{error}</div>}
       {deleteError && <div className="error-message" style={{ marginBottom: '15px' }}>{deleteError}</div>}
 
+      <div className="premium-card list-card">
       {users.length === 0 && !error ? (
-        <p>No users found. Create one to get started.</p>
+        <div className="empty-state">No sales executives yet. Add your first team member to get started.</div>
       ) : (
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+        <div style={{ overflowX: 'auto' }}><table className="premium-table">
           <thead>
-            <tr style={{ backgroundColor: '#f4f4f4', textAlign: 'left' }}>
-              <th style={{ padding: '12px', borderBottom: '1px solid #ddd' }}>Name</th>
-              <th style={{ padding: '12px', borderBottom: '1px solid #ddd' }}>Email</th>
-              <th style={{ padding: '12px', borderBottom: '1px solid #ddd' }}>Phone</th>
-              <th style={{ padding: '12px', borderBottom: '1px solid #ddd' }}>Actions</th>
+            <tr><th>Name</th><th>Email</th><th>Phone</th><th style={{ textAlign: 'right' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map(user => (
               <tr key={user._id}>
-                <td style={{ padding: '12px', borderBottom: '1px solid #eee' }}>{user.name}</td>
-                <td style={{ padding: '12px', borderBottom: '1px solid #eee' }}>{user.email}</td>
-                <td style={{ padding: '12px', borderBottom: '1px solid #eee' }}>{user.phone || 'N/A'}</td>
-                <td style={{ padding: '12px', borderBottom: '1px solid #eee' }}>
-                  <Link to={`/admin/users/${user._id}/edit`} style={{ marginRight: '10px' }}>Edit</Link>
+                <td className="summary-cell">{user.name}</td><td className="muted-cell">{user.email}</td><td className="muted-cell">{user.phone || '—'}</td>
+                <td style={{ textAlign: 'right' }}>
+                  <Link to={`/admin/users/${user._id}/edit`} className="inline-action">Edit</Link>
                   <button 
                     onClick={() => handleDelete(user._id)}
-                    style={{ background: 'none', border: 'none', color: 'red', cursor: 'pointer', padding: 0 }}
+                    className="inline-action danger-action"
                   >
                     Delete
                   </button>
@@ -83,8 +78,9 @@ const UsersList = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
+      </div>
     </div>
   );
 };

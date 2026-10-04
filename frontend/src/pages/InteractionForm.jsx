@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams, Link, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getInteraction, createInteraction, updateInteraction } from '../api/interactions';
 import { getCustomers } from '../api/customers';
-import { useAuth } from '../hooks/useAuth';
 
 const InteractionForm = () => {
   const { id } = useParams();
@@ -89,10 +88,10 @@ const InteractionForm = () => {
     }
   };
 
-  if (loading) return <div style={{ padding: '20px' }}>Loading...</div>;
+  if (loading) return <div className="content-page" style={{ padding: '28px 32px' }}>Loading interaction...</div>;
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+    <div className="content-page form-page" style={{ padding: '28px 32px', maxWidth: '680px', margin: '0 auto' }}>
       <div className="flex-between" style={{ marginBottom: '20px' }}>
         <h2>{isEditMode ? 'Edit Interaction' : 'Log New Interaction'}</h2>
         <button onClick={() => navigate(-1)} className="premium-btn" style={{ background: 'transparent', color: 'var(--text)' }}>

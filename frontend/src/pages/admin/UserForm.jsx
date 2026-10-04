@@ -74,15 +74,15 @@ const UserForm = () => {
     }
   };
 
-  if (loading) return <div>Loading user data...</div>;
+  if (loading) return <div className="content-page" style={{ padding: '28px 32px' }}>Loading team member...</div>;
 
   return (
-    <div style={{ padding: '20px', maxWidth: '500px', margin: '0 auto' }}>
-      <h2>{isEditing ? 'Edit User' : 'Create New User'}</h2>
+    <div className="content-page form-page" style={{ padding: '28px 32px', maxWidth: '620px', margin: '0 auto' }}>
+      <div className="page-header"><h2>{isEditing ? 'Edit team member' : 'Add team member'}</h2><p>Set up access for a sales executive.</p></div>
       
       {error && <div className="error-message" style={{ marginBottom: '15px' }}>{error}</div>}
       
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <form onSubmit={handleSubmit} className="premium-card">
         <div className="form-group">
           <label htmlFor="name">Name *</label>
           <input
@@ -92,7 +92,7 @@ const UserForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '8px' }}
+            className="premium-input"
           />
         </div>
         
@@ -105,7 +105,7 @@ const UserForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '8px' }}
+            className="premium-input"
           />
         </div>
         
@@ -118,7 +118,7 @@ const UserForm = () => {
             value={formData.password}
             onChange={handleChange}
             required={!isEditing}
-            style={{ width: '100%', padding: '8px' }}
+            className="premium-input"
           />
         </div>
         
@@ -130,18 +130,18 @@ const UserForm = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            style={{ width: '100%', padding: '8px' }}
+            className="premium-input"
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-          <button type="submit" disabled={saving} className="btn-primary">
+        <div className="flex-row" style={{ marginTop: '24px' }}>
+          <button type="submit" disabled={saving} className="premium-btn premium-btn-primary">
             {saving ? 'Saving...' : 'Save User'}
           </button>
           <button 
             type="button" 
             onClick={() => navigate('/admin/users')}
-            style={{ padding: '10px 15px', cursor: 'pointer' }}
+            className="premium-btn premium-btn-secondary"
           >
             Cancel
           </button>

@@ -46,17 +46,13 @@ const Profile = () => {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '500px', margin: '0 auto' }}>
-      <h2>My Profile</h2>
-      <p style={{ color: '#666', marginBottom: '20px' }}>
-        <strong>Email:</strong> {user?.email} <br />
-        <strong>Role:</strong> {user?.role === 'admin' ? 'Administrator' : 'Sales Executive'}
-      </p>
+    <div className="content-page form-page" style={{ padding: '28px 32px', maxWidth: '620px', margin: '0 auto' }}>
+      <div className="page-header"><h2>My profile</h2><p>{user?.email} · {user?.role === 'admin' ? 'Administrator' : 'Sales executive'}</p></div>
       
       {error && <div className="error-message" style={{ marginBottom: '15px' }}>{error}</div>}
-      {success && <div style={{ color: 'green', backgroundColor: '#e6ffe6', padding: '10px', borderRadius: '4px', marginBottom: '15px' }}>{success}</div>}
+      {success && <div className="success-message" style={{ marginBottom: '15px' }}>{success}</div>}
       
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <form onSubmit={handleSubmit} className="premium-card">
         <div className="form-group">
           <label htmlFor="name">Name *</label>
           <input
@@ -66,7 +62,7 @@ const Profile = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '8px' }}
+            className="premium-input"
           />
         </div>
         
@@ -78,12 +74,12 @@ const Profile = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            style={{ width: '100%', padding: '8px' }}
+            className="premium-input"
           />
         </div>
 
         <div style={{ marginTop: '10px' }}>
-          <button type="submit" disabled={saving} className="btn-primary">
+          <button type="submit" disabled={saving} className="premium-btn premium-btn-primary">
             {saving ? 'Saving...' : 'Update Profile'}
           </button>
         </div>

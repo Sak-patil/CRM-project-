@@ -58,7 +58,7 @@ const InteractionsList = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="content-page" style={{ padding: '28px 32px' }}>
       <div className="page-header flex-between">
         <div>
           <h2>Interactions History</h2>
@@ -73,12 +73,12 @@ const InteractionsList = () => {
 
       {error && <div style={{ color: '#ff4757', marginBottom: '15px' }}>{error}</div>}
 
-      <div className="premium-card" style={{ marginBottom: '20px' }}>
-        <div style={{ display: 'flex', gap: '15px' }}>
+      <div className="premium-card filter-card">
+        <div className="filter-row">
           <select 
             value={typeFilter} 
             onChange={(e) => setTypeFilter(e.target.value)}
-            style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text-h)' }}
+            className="filter-select"
           >
             <option value="">All Types</option>
             <option value="Call">Call</option>
@@ -88,66 +88,51 @@ const InteractionsList = () => {
         </div>
       </div>
 
-      <div className="premium-card">
+      <div className="premium-card list-card">
         {loading ? (
           <p>Loading interactions...</p>
         ) : interactions.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--text)', padding: '20px' }}>No interactions found.</p>
         ) : (
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <table className="premium-table">
               <thead>
-                <tr style={{ borderBottom: '2px solid var(--border)', color: 'var(--text)' }}>
-                  <th style={{ padding: '12px' }}>Type</th>
-                  <th style={{ padding: '12px' }}>Customer</th>
-                  <th style={{ padding: '12px' }}>Date</th>
-                  <th style={{ padding: '12px' }}>Summary</th>
-                  <th style={{ padding: '12px' }}>Logged By</th>
-                  <th style={{ padding: '12px', textAlign: 'right' }}>Actions</th>
+                <tr>
+                  <th>Type</th><th>Customer</th><th>Date</th><th>Summary</th><th>Logged By</th><th style={{ textAlign: 'right' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {interactions.map(interaction => (
-                  <tr key={interaction._id} style={{ borderBottom: '1px solid var(--border)' }}>
-                    <td style={{ padding: '12px' }}>
-                      <span style={{ 
-                        display: 'inline-block',
-                        padding: '4px 8px', 
-                        borderRadius: '4px', 
-                        fontSize: '12px',
-                        fontWeight: '500',
-                        color: '#fff',
-                        backgroundColor: getTypeColor(interaction.type)
-                      }}>
+                  <tr key={interaction._id}>
+                    <td>
+                      <span className="type-badge" style={{ color: getTypeColor(interaction.type), backgroundColor: `${getTypeColor(interaction.type)}18` }}>
                         {interaction.type}
                       </span>
                     </td>
-                    <td style={{ padding: '12px' }}>
-                      <Link to={`/customers/${interaction.customer?._id}`} style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: '500' }}>
+                    <td>
+                      <Link to={`/customers/${interaction.customer?._id}`} className="table-primary-link">
                         {interaction.customer?.name || 'Unknown'}
                       </Link>
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px', color: 'var(--text)' }}>
+                    <td className="muted-cell">
                       {formatDate(interaction.date)}
                     </td>
-                    <td style={{ padding: '12px', color: 'var(--text-h)' }}>
+                    <td className="summary-cell">
                       {interaction.summary}
                     </td>
-                    <td style={{ padding: '12px', color: 'var(--text)' }}>
+                    <td className="muted-cell">
                       {interaction.createdBy?.name || 'Unknown'}
                     </td>
-                    <td style={{ padding: '12px', textAlign: 'right' }}>
+                    <td style={{ textAlign: 'right' }}>
                       <Link 
                         to={`/interactions/${interaction._id}/edit`} 
-                        className="premium-btn" 
-                        style={{ padding: '4px 8px', fontSize: '12px', marginRight: '8px', background: 'transparent', color: 'var(--accent)' }}
+                        className="inline-action"
                       >
                         Edit
                       </Link>
                       <button 
                         onClick={() => handleDelete(interaction._id)}
-                        className="premium-btn"
-                        style={{ padding: '4px 8px', fontSize: '12px', background: 'transparent', color: '#ff4757', border: '1px solid #ff4757' }}
+                        className="inline-action danger-action"
                       >
                         Delete
                       </button>

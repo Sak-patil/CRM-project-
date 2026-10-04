@@ -69,7 +69,7 @@ const FollowUpsList = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="content-page" style={{ padding: '28px 32px' }}>
       <div className="page-header flex-between">
         <div>
           <h2>Follow-ups Kanban</h2>
@@ -82,57 +82,57 @@ const FollowUpsList = () => {
         </Link>
       </div>
 
-      <div className="premium-card">
+      <div className="premium-card kanban-shell">
         {error && <div style={{ color: '#ff4757', marginBottom: '16px' }}>{error}</div>}
 
         {loading ? (
           <div style={{ padding: '20px', textAlign: 'center' }}>Loading follow-ups...</div>
         ) : (
-          <div style={{ display: 'flex', gap: '20px', overflowX: 'auto', paddingBottom: '10px' }}>
+          <div className="kanban-board">
             {['Pending', 'In Progress', 'Completed'].map(status => (
-              <div key={status} style={{ flex: '1', minWidth: '300px', background: '#f8f9fa', borderRadius: '8px', padding: '16px' }}>
-                <h3 style={{ borderBottom: `3px solid ${getStatusColor(status).color}`, paddingBottom: '8px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between' }}>
+              <div key={status} className="kanban-column">
+                <h3 className="kanban-title" style={{ borderBottomColor: getStatusColor(status).color }}>
                   {status} 
-                  <span style={{ background: '#e2e8f0', color: '#64748b', borderRadius: '12px', padding: '2px 8px', fontSize: '0.8rem' }}>
+                  <span className="kanban-count">
                     {followUps.filter(f => f.status === status).length}
                   </span>
                 </h3>
                 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div className="kanban-cards">
                   {followUps.filter(f => f.status === status).length === 0 ? (
-                    <div style={{ textAlign: 'center', padding: '20px', color: '#a0aec0', fontSize: '0.9rem' }}>No {status} follow-ups</div>
+                    <div className="kanban-empty">No {status.toLowerCase()} follow-ups</div>
                   ) : (
                     followUps.filter(f => f.status === status).map(fu => (
-                      <div key={fu._id} style={{ background: '#fff', borderRadius: '6px', padding: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderLeft: `4px solid ${fu.isOverdue ? '#ff4757' : getStatusColor(status).color}` }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                          <Link to={`/customers/${fu.customer?._id}`} style={{ fontWeight: '600', color: 'var(--accent)', textDecoration: 'none' }}>
+                      <div key={fu._id} className="followup-card" style={{ borderLeftColor: fu.isOverdue ? '#b42318' : getStatusColor(status).color }}>
+                        <div className="followup-card-top">
+                          <Link to={`/customers/${fu.customer?._id}`} className="table-primary-link">
                             {fu.customer?.name || 'Unknown'}
                           </Link>
-                          {fu.isOverdue && <span style={{ fontSize: '10px', color: '#ff4757', border: '1px solid #ff4757', borderRadius: '3px', padding: '1px 3px' }}>OVERDUE</span>}
+                          {fu.isOverdue && <span className="overdue-label">Overdue</span>}
                         </div>
-                        <div style={{ fontSize: '0.85rem', color: '#718096', marginBottom: '8px' }}>
-                          📅 {formatDate(fu.date)}
+                        <div className="followup-date">
+                          Due {formatDate(fu.date)}
                         </div>
                         {fu.notes && (
-                          <div style={{ fontSize: '0.85rem', color: '#4a5568', marginBottom: '12px', padding: '8px', background: '#f1f5f9', borderRadius: '4px' }}>
+                          <div className="followup-notes">
                             {fu.notes}
                           </div>
                         )}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', borderTop: '1px solid #edf2f7', paddingTop: '8px' }}>
+                        <div className="followup-actions">
                           
                           {/* Quick Actions / Move Next */}
                           <div>
                             {status === 'Pending' && (
-                              <button onClick={() => handleStatusChange(fu._id, 'In Progress')} className="premium-btn premium-btn-secondary" style={{ padding: '4px 8px', fontSize: '11px', marginRight: '4px' }}>Move to In Progress ➔</button>
+                              <button onClick={() => handleStatusChange(fu._id, 'In Progress')} className="premium-btn premium-btn-secondary compact-button">Start</button>
                             )}
                             {status === 'In Progress' && (
-                              <button onClick={() => handleStatusChange(fu._id, 'Completed')} className="premium-btn premium-btn-primary" style={{ padding: '4px 8px', fontSize: '11px', background: '#2ecc71', color: 'white', marginRight: '4px' }}>Complete ✓</button>
+                              <button onClick={() => handleStatusChange(fu._id, 'Completed')} className="premium-btn premium-btn-primary compact-button complete-button">Complete</button>
                             )}
                           </div>
                           
-                          <div style={{ display: 'flex', gap: '4px' }}>
-                            <Link to={`/follow-ups/${fu._id}/edit`} className="premium-btn premium-btn-secondary" style={{ padding: '4px', fontSize: '12px' }} title="Edit">✏️</Link>
-                            <button onClick={() => handleDelete(fu._id)} className="premium-btn premium-btn-danger" style={{ padding: '4px', fontSize: '12px' }} title="Delete">🗑️</button>
+                          <div className="followup-actions-right">
+                            <Link to={`/follow-ups/${fu._id}/edit`} className="inline-action">Edit</Link>
+                            <button onClick={() => handleDelete(fu._id)} className="inline-action danger-action">Delete</button>
                           </div>
                         </div>
                       </div>

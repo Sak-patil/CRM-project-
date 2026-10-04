@@ -26,7 +26,7 @@ const Login = () => {
     const result = await login(email, password);
 
     if (result.success) {
-      navigate('/');
+      navigate('/dashboard');
     } else {
       setError(result.error);
       setIsSubmitting(false);
@@ -36,45 +36,25 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2>CRM Login</h2>
-        <p>Please enter your credentials to access the system.</p>
+        <h2>Welcome back</h2>
+        <p>Sign in to manage your customer relationships.</p>
         
         {error && <div className="error-message">{error}</div>}
         
-        <div className="role-selector" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        <div className="role-selector" style={{ display: 'flex', marginBottom: '20px' }} aria-label="Sign-in role preview">
           <button 
             type="button" 
             onClick={() => setSelectedRole('admin')}
-            style={{ 
-              flex: 1, 
-              padding: '10px', 
-              backgroundColor: selectedRole === 'admin' ? '#6c63ff' : '#e2e8f0', 
-              color: selectedRole === 'admin' ? '#fff' : '#333',
-              border: 'none', 
-              borderRadius: '5px', 
-              cursor: 'pointer', 
-              fontWeight: '500',
-              transition: 'all 0.2s ease'
-            }}
+            className={selectedRole === 'admin' ? 'role-choice is-selected' : 'role-choice'}
           >
-            👨‍💼 Admin
+            Administrator
           </button>
           <button 
             type="button" 
             onClick={() => setSelectedRole('sales')}
-            style={{ 
-              flex: 1, 
-              padding: '10px', 
-              backgroundColor: selectedRole === 'sales' ? '#6c63ff' : '#e2e8f0', 
-              color: selectedRole === 'sales' ? '#fff' : '#333',
-              border: 'none', 
-              borderRadius: '5px', 
-              cursor: 'pointer', 
-              fontWeight: '500',
-              transition: 'all 0.2s ease'
-            }}
+            className={selectedRole === 'sales' ? 'role-choice is-selected' : 'role-choice'}
           >
-            🧑‍💻 Sales Exec
+            Sales executive
           </button>
         </div>
 
