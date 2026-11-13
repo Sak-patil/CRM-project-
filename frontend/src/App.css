@@ -1,9 +1,10 @@
 .main-content {
   min-height: 100vh;
   margin-left: 248px;
+  padding-top: 76px;
   background: var(--surface-subtle);
 }
 
 @media (max-width: 760px) {
-  .main-content { margin-left: 0; padding-top: 64px; }
+  .main-content { margin-left: 0; padding-top: 126px; }
 }

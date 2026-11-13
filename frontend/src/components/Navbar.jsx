@@ -27,7 +27,7 @@ const Navbar = () => {
   const handleLogout = () => { logout(); navigate('/login'); };
 
   useEffect(() => {
-    if (!token || !user) return undefined;
+    if (!token || !user || user.role !== 'salesExecutive') return undefined;
 
     const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000', {
       auth: { token }
@@ -48,9 +48,19 @@ const Navbar = () => {
     setShowNotifications(false);
   };
 
-  return <aside className="app-sidebar">
-    <div className="sidebar-brand" aria-label="ClientFlow CRM"><span className="brand-mark">C</span><span>ClientFlow</span></div>
-    <div className="notification-area">
+  return <>
+    <aside className="app-sidebar">
+      <div className="sidebar-brand" aria-label="ClientFlow CRM"><span className="brand-mark">C</span><span>ClientFlow</span></div>
+      <div className="sidebar-workspace">WORKSPACE</div>
+      <nav className="sidebar-nav" aria-label="Primary navigation">
+        {navigation.map(([to, label, icon, exact]) => <NavLink key={to} to={to} end={exact} className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}><Icon name={icon} /><span>{label}</span></NavLink>)}
+      </nav>
+      <div className="sidebar-footer">
+        <NavLink to="/se/profile" className={({ isActive }) => `account-row${isActive ? ' active' : ''}`}><span className="account-avatar">{initial}</span><span className="account-copy"><strong>{user?.name || 'Account'}</strong><small>{user?.role === 'admin' ? 'Administrator' : 'Sales executive'}</small></span><Icon name="profile" /></NavLink>
+        <button type="button" className="sidebar-logout" onClick={handleLogout}><Icon name="logout" /><span>Sign out</span></button>
+      </div>
+    </aside>
+    {user?.role === 'salesExecutive' && <div className="top-notification">
       <button type="button" className="notification-button" onClick={() => setShowNotifications((visible) => !visible)} aria-label="Notifications">
         <Icon name="bell" />
         {notifications.length > 0 && <span className="notification-count">{notifications.length}</span>}
@@ -79,16 +89,8 @@ const Navbar = () => {
           )}
         </div>
       )}
-    </div>
-    <div className="sidebar-workspace">WORKSPACE</div>
-    <nav className="sidebar-nav" aria-label="Primary navigation">
-      {navigation.map(([to, label, icon, exact]) => <NavLink key={to} to={to} end={exact} className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}><Icon name={icon} /><span>{label}</span></NavLink>)}
-    </nav>
-    <div className="sidebar-footer">
-      <NavLink to="/se/profile" className={({ isActive }) => `account-row${isActive ? ' active' : ''}`}><span className="account-avatar">{initial}</span><span className="account-copy"><strong>{user?.name || 'Account'}</strong><small>{user?.role === 'admin' ? 'Administrator' : 'Sales executive'}</small></span><Icon name="profile" /></NavLink>
-      <button type="button" className="sidebar-logout" onClick={handleLogout}><Icon name="logout" /><span>Sign out</span></button>
-    </div>
-  </aside>;
+    </div>}
+  </>;
 };
 
 export default Navbar;

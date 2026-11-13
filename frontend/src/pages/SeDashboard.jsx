@@ -178,7 +178,7 @@ const SeDashboard = () => {
           subtitle={summary.followUps.overdue > 0 ? 'Requires immediate attention' : 'You\'re up to date!'}
           color={summary.followUps.overdue > 0 ? '#e74c3c' : '#2ecc71'}
           icon={summary.followUps.overdue > 0 ? '🔴' : '✅'}
-          linkTo="/follow-ups?status=Pending"
+          linkTo="/follow-ups?overdue=true"
         />
         <StatCard
           title="In Progress"

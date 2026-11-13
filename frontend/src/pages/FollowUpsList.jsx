@@ -11,12 +11,14 @@ const FollowUpsList = () => {
   
   const [searchParams, setSearchParams] = useSearchParams();
   const statusFilter = searchParams.get('status') || '';
+  const overdueFilter = searchParams.get('overdue') === 'true';
 
   const fetchFollowUps = async () => {
     try {
       setLoading(true);
       const params = {};
       if (statusFilter) params.status = statusFilter;
+      if (overdueFilter) params.overdue = 'true';
       
       const response = await getFollowUps(params);
       setFollowUps(response.data.followUps);
@@ -30,7 +32,7 @@ const FollowUpsList = () => {
 
   useEffect(() => {
     fetchFollowUps();
-  }, [statusFilter]);
+  }, [statusFilter, overdueFilter]);
 
   const handleStatusChange = async (id, newStatus) => {
     try {
@@ -72,9 +74,13 @@ const FollowUpsList = () => {
     <div className="content-page" style={{ padding: '28px 32px' }}>
       <div className="page-header flex-between">
         <div>
-          <h2>Follow-ups Kanban</h2>
+          <h2>{overdueFilter ? 'Overdue Follow-ups' : 'Follow-ups Kanban'}</h2>
           <p style={{ color: 'var(--text)', fontSize: '14px' }}>
-            {user?.role === 'admin' ? 'System-wide follow-ups' : 'Manage your assigned follow-ups'}
+            {overdueFilter
+              ? 'Follow-ups that are past their due date'
+              : user?.role === 'admin'
+                ? 'System-wide follow-ups'
+                : 'Manage your assigned follow-ups'}
           </p>
         </div>
         <Link to="/follow-ups/new" className="premium-btn premium-btn-primary">

@@ -48,6 +48,12 @@ exports.getFollowUps = catchAsync(async (req, res, next) => {
     query.status = req.query.status;
   }
 
+  // Overdue means the due date has passed and the follow-up is still active.
+  if (req.query.overdue === 'true') {
+    query.status = { $in: ['Pending', 'In Progress'] };
+    query.date = { $lt: new Date() };
+  }
+
   const followUps = await FollowUp.find(query)
     .populate('customer', 'name email phone')
     .populate('createdBy', 'name')

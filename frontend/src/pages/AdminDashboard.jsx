@@ -214,7 +214,7 @@ const AdminDashboard = () => {
       <div className="dash-stats-grid">
         <StatCard title="Total Customers" value={summary.totalCustomers} subtitle="Across all accounts" color="#6c63ff" icon="👥" linkTo="/customers" />
         <StatCard title="Sales Executives" value={summary.totalSalesExecutives} subtitle="Active team members" color="#3498db" icon="🧑‍💼" linkTo="/admin/users" />
-        <StatCard title="Overdue Follow-ups" value={summary.followUps.overdue} subtitle={summary.followUps.overdue > 0 ? 'Needs attention' : 'All clear!'} color={summary.followUps.overdue > 0 ? '#e74c3c' : '#2ecc71'} icon={summary.followUps.overdue > 0 ? '🔴' : '✅'} linkTo="/follow-ups" />
+        <StatCard title="Overdue Follow-ups" value={summary.followUps.overdue} subtitle={summary.followUps.overdue > 0 ? 'Needs attention' : 'All clear!'} color={summary.followUps.overdue > 0 ? '#e74c3c' : '#2ecc71'} icon={summary.followUps.overdue > 0 ? '🔴' : '✅'} linkTo="/follow-ups?overdue=true" />
         <StatCard title="Completed Follow-ups" value={summary.followUps.completed} subtitle="All time" color="#2ecc71" icon="✔️" linkTo="/follow-ups?status=Completed" />
         <StatCard title="Total Follow-ups" value={summary.followUps.total} subtitle="All statuses" color="#f39c12" icon="📋" linkTo="/follow-ups" />
         <StatCard title="Total Interactions" value={summary.interactions.total} subtitle="Calls, Emails, Meetings" color="#9b59b6" icon="💬" linkTo="/interactions" />
