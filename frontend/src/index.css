@@ -56,6 +56,19 @@ h3 { font-size: 16px; }
 .sidebar-link:hover, .account-row:hover, .sidebar-logout:hover { background: #233d65; color: white; }
 .sidebar-link.active { background: #2e5287; color: white; font-weight: 600; }
 .sidebar-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid #2d476d; }
+.notification-area { position: relative; margin: 14px 0 0; }
+.notification-button { display: flex; align-items: center; gap: 11px; width: 100%; min-height: 42px; padding: 10px; border: 0; border-radius: 6px; color: #c8d4e7; background: transparent; font-size: 14px; text-align: left; }
+.notification-button:hover { background: #233d65; color: white; }
+.notification-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.notification-count { min-width: 19px; padding: 2px 5px; border-radius: 10px; background: #ef6b73; color: white; font-size: 11px; font-weight: 700; text-align: center; }
+.notification-panel { position: absolute; z-index: 20; top: 48px; left: 0; width: 290px; overflow: hidden; border: 1px solid #dfe5ee; border-radius: 8px; background: white; color: var(--ink); box-shadow: 0 10px 24px rgba(16,24,40,.16); }
+.notification-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 13px; }
+.notification-panel-header button { border: 0; background: transparent; color: var(--accent); font-size: 11px; font-weight: 700; }
+.notification-empty { margin: 0; padding: 18px 14px; color: var(--muted); font-size: 12px; }
+.notification-item { display: grid; gap: 4px; width: 100%; padding: 12px 14px; border: 0; border-bottom: 1px solid #eef0f3; background: white; color: var(--muted); text-align: left; font-size: 12px; }
+.notification-item:hover { background: var(--accent-bg); }
+.notification-item strong { color: var(--ink); font-size: 12px; }
+.notification-item span { line-height: 1.4; }
 .account-row { min-height: 54px; padding: 8px; }
 .account-row.active { background: #233d65; color: white; }
 .account-avatar { width: 32px; height: 32px; flex: 0 0 auto; border-radius: 50%; display: grid; place-items: center; background: #c9dcfa; color: #193863; font-size: 13px; font-weight: 700; }

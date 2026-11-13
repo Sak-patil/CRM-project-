@@ -93,6 +93,15 @@ exports.createCustomer = catchAsync(async (req, res, next) => {
     createdBy: req.user.id
   });
 
+  if (req.user.role === 'admin') {
+    const io = req.app.get('io');
+    io.to(`user:${assignedUserId.toString()}`).emit('customer-assigned', {
+      id: customer._id,
+      customerName: customer.name,
+      message: `${customer.name} was assigned to you`
+    });
+  }
+
   res.status(201).json({
     success: true,
     data: {
@@ -119,6 +128,7 @@ exports.updateCustomer = catchAsync(async (req, res, next) => {
   }
 
   const { name, email, phone, address, assignedTo } = req.body;
+  const previousAssignedTo = customer.assignedTo.toString();
   const updateData = {};
 
   if (name) updateData.name = name;
@@ -135,6 +145,19 @@ exports.updateCustomer = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true
   }).populate('assignedTo', 'name email');
+
+  if (
+    req.user.role === 'admin' &&
+    assignedTo &&
+    assignedTo !== previousAssignedTo
+  ) {
+    const io = req.app.get('io');
+    io.to(`user:${assignedTo}`).emit('customer-assigned', {
+      id: customer._id,
+      customerName: customer.name,
+      message: `${customer.name} was assigned to you`
+    });
+  }
 
   res.status(200).json({
     success: true,
