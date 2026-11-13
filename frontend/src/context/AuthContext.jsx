@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [token, setToken] = useState(sessionStorage.getItem('token') || null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
       const response = await axiosInstance.post('/auth/login', { email, password });
       const { token: newToken, data } = response.data;
       
-      localStorage.setItem('token', newToken);
+      sessionStorage.setItem('token', newToken);
       setToken(newToken);
       setUser(data.user);
       
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     setToken(null);
     setUser(null);
   };
